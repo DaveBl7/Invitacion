@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Invitación de Boda | David & Esme</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Libre+Baskerville:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        .countdown-line {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 30px 0;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.45rem;
+            color: #6b5b3e;
+        }
+
+        .countdown-line strong {
+            display: inline-block;
+            min-width: 28px;
+            text-align: center;
+            font-size: 1.8rem;
+            color: #c6a75e;
+            transition: transform .35s ease, opacity .35s ease;
+        }
+
+        .countdown-line strong.animate {
+            transform: translateY(-6px);
+            opacity: .4;
+        }
+
+        :root {
+            --paper: #f7f2e8;
+            --gold: #c6a75e;
+            --text: #2f2f2f;
+            --soft: #7a7a7a;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Libre Baskerville', serif;
+            background: linear-gradient(180deg, #efe8dc, var(--paper));
+            color: var(--text);
+            text-align: center;
+        }
+
+        /* PAPEL / PERGAMINO */
+        .paper {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: var(--paper);
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .18);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paper::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url('img/paper-texture.png');
+            opacity: .25;
+            pointer-events: none;
+        }
+
+        section {
+            padding: 90px 25px;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 35px;
+        }
+
+        h2::after {
+            content: "";
+            width: 80px;
+            height: 2px;
+            background: var(--gold);
+            display: block;
+            margin: 18px auto 0;
+        }
+
+        /* CARRUSEL */
+        .carousel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            animation: slide 20s infinite;
+        }
+
+        .carousel img {
+            width: 105%;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(0)
+            }
+
+            33% {
+                transform: translateX(-100%)
+            }
+
+            66% {
+                transform: translateX(-200%)
+            }
+
+            100% {
+                transform: translateX(0)
+            }
+        }
+
+        /* NOMBRES */
+        .names {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            background: rgba(0, 0, 0, .35);
+        }
+
+        .names h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 9.2rem;
+            letter-spacing: 15px;
+            animation: fadeNames 2.5s ease forwards;
+        }
+
+        @keyframes fadeNames {
+            from {
+                opacity: 0;
+                transform: translateY(40px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .phrase {
+            font-style: italic;
+            color: var(--soft);
+            max-width: 650px;
+            margin: auto;
+            font-size: 1.1rem;
+        }
+
+        .text {
+            max-width: 900px;
+            margin: auto;
+            line-height: 1.4;
+            font-size: 1.3rem;
+        }
+
+        /* PADRES / ICONOS */
+        .icons {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            font-size: 1.4rem;
+        }
+
+        .icons i {
+            color: var(--gold);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* CARRUSEL SIMPLE */
+        .mini-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+            height: 260px;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 18px;
+        }
+
+        .mini-carousel img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* 👈 mantiene proporción */
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .mini-carousel img.active {
+            opacity: 1;
+        }
+
+        .coverflow-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 580px;
+            height: 320px;
+            margin: auto;
+            perspective: 1200px;
+        }
+
+        .card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 240px;
+            height: 300px;
+            transform-style: preserve-3d;
+            transition: all 1s ease;
+        }
+
+        /* CENTRO */
+        .card.active {
+            transform: translate(-50%, -50%) scale(1);
+            z-index: 3;
+        }
+
+        /* LADOS */
+        .card.next {
+            transform: translate(20%, -50%) scale(.75);
+            opacity: .35;
+            z-index: 2;
+        }
+
+        .card.prev {
+            transform: translate(-120%, -50%) scale(.75);
+            opacity: .35;
+            z-index: 2;
+        }
+
+        /* TARJETA */
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform .7s;
+            transform-style: preserve-3d;
+        }
+
+        /* FLIP AL HOVER */
+        .card.active:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            backface-visibility: hidden;
+        }
+
+        .card-front {
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 20px 40px rgba(255, 234, 4, 0);
+        }
+
+        .card-back {
+            background: #462f01;
+            color: #ffdfa3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            font-family: 'Libre Baskerville', serif;
+            font-size: .95rem;
+            transform: rotateY(180deg);
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .carousel-dots span {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #d8c8a0;
+            opacity: .4;
+            cursor: pointer;
+            transition: all .3s ease;
+        }
+
+        .carousel-dots span.active {
+            opacity: 1;
+            background: #c6a75e;
+            transform: scale(1.3);
+        }
+
+
+        .itinerary-section {
+            max-width: 520px;
+            margin: 90px auto;
+            padding: 0 20px;
+        }
+
+        .itinerary-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: #2c2c2c;
+            margin-bottom: 50px;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .icon-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .floral-icon {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #c6a75e;
+            stroke-width: 1.2;
+        }
+
+        .line {
+            width: 1px;
+            height: 34px;
+            background: linear-gradient(to bottom,
+                    #c6a75e,
+                    rgba(198, 167, 94, 0.3));
+            margin-top: 6px;
+        }
+
+        .timeline-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            color: #444;
+            line-height: 1.4;
+        }
+
+        .timeline-text strong {
+            color: #2c2c2c;
+            font-weight: 600;
+        }
+
+        /* DRESS CODE */
+        .dress {
+            color: var(--gold);
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+        }
+
+        .dress-icons {
+            font-size: 2.2rem;
+            color: var(--gold);
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .rsvp-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        #rsvpForm {
+            max-width: 420px;
+            margin: auto;
+        }
+
+        #rsvpForm input,
+        #rsvpForm textarea {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border: 1px solid #d8c8a0;
+            font-family: 'Libre Baskerville', serif;
+            font-size: .95rem;
+        }
+
+        #rsvpForm button {
+            background: #c6a75e;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: .9rem;
+        }
+
+        .spinner {
+            display: none;
+            width: 32px;
+            height: 32px;
+            margin: 20px auto 0;
+            border: 3px solid #e6d8b5;
+            border-top: 3px solid #c6a75e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        #formMessage {
+            margin-top: 25px;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.8rem;
+            /* ⬅️ tamaño más grande */
+            font-weight: 700;
+            /* ⬅️ negritas */
+            color: #c6a75e;
+            /* dorado elegante */
+            text-align: center;
+            animation: fadeIn 1.2s ease forwards;
+        }
+
+        footer {
+            padding: 80px 30px;
+            color: var(--soft);
+            font-size: 1.00rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <audio controls autoplay loop>
+        <source src="img/cancion.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="paper">
+
+        <!-- HERO -->
+        <div class="carousel">
+            <div class="carousel-track">
+                <img src="img/portada1.jpg"><img src="img/portada2.jpg"><img src="img/portada3.jpg"><img
+                    src="img/portada1.jpg">
+            </div>
+            <div class="names">
+                <h1>David & Esme</h1>
+                <p id="guestName"></p>
+            </div>
+        </div>
+        <div class="countdown-line" id="countdown">
+            <span><strong id="days">0</strong> días</span>
+            <span>·</span>
+            <span><strong id="hours">0</strong> horas</span>
+            <span>·</span>
+            <span><strong id="minutes">0</strong> min</span>
+            <span>·</span>
+            <span><strong id="seconds">0</strong> seg</span>
+        </div>
+
+        <section>
+            <p class="phrase">“El amor crece cuando se comparte.” <br>— Antoine de Saint-Exupéry</p><br><br><br>
+            <p class="phrase">Uno solo puede ser vencido, pero dos pueden resistir.<br>
+                ¡La cuerda de tres hilos no se rompe fácilmente!<br> - Eclesiastés 4:12.
+        </section>
+
+        <section>
+            <p class="text">Con la bendición de Dios y el amor que nos une, queremos compartir con ustedes uno de los
+                días más importantes de nuestras vidas e invitarlos a celebrar nuestra unión.</p>
+        </section>
+
+        <section>
+            <h2>Nuestros Padres</h2>
+            <div class="icons">
+                <div>
+                    <i class="fa-solid fa-user-tie"></i><br>Padres del Novio:
+                    <br><br>Martín Adrián Beltrán Gil
+                    <br> Pilar Isela Bórquez Rodríguez
+                </div>
+                <div>
+                    <i class="fa-solid fa-person-dress"></i><br>Padres de la Novia:
+                    <br><br>Jose Antorio Zavala Ruíz
+                    <br>Cecilia Serrano Gómez
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2><i class="fa-solid fa-location-dot"></i> Jardín el Encanto</h2>
+            <p>Mapa</p>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.706849320123!2d-109.03003989999999!3d25.7472063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86ba250906bb1513%3A0xd625358c68b0ed25!2sEl%20Encanto%20Jard%C3%ADn%20de%20Eventos!5e0!3m2!1ses-419!2smx!4v1768802787988!5m2!1ses-419!2smx"
+                width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </section>
+        <section>
+            <h2>Nuestros Padrinos</h2>
+            <div class="coverflow-carousel" id="coverflow">
+                <div class="card active">
+                    <div class="card-inner">
+                        <div class="card-front" style="background-image:url('img/selene.png')">
+                        </div>
+                        <div class="card-back">
+                            <p>Selene Bórquez.<br><br> Gracias por su gran apoyo desde el día que nos comprometimos💍🤍
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card next">
+                    <div class="card-inner">
+                        <div class="card-front" style="background-image:url('img/joel.png')">
+                        </div>
+                        <div class="card-back">
+                            <p>Joel Bórquez.<br><br> Gracias por aportar con el sonido, le queremos✨</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card prev">
+                    <div class="card-inner">
+                        <div class="card-front" style="background-image:url('img/esa.png')"></div>
+                        <div class="card-back">
+                            <p>Esahu Bórquez.<br><br> Gracias por siempre apoyarnos y animarnos a dar este paso</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-dots" id="carouselDots"></div>
+        </section>
+
+        <section class="itinerary-section">
+            <h2> Itinerario</h2>
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+                    <div class="icon-wrapper">
+                        <svg class="floral-icon" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2c1.5 3-1.5 4.5 0 7 1.5-2.5 4.5-1 6-3-1 3-3 4.5-6 6 3 1.5 5 3 6 6-3-2-4.5-1-6-3-1.5 2.5 1.5 4 0 7-1.5-3 1.5-4.5 0-7-1.5 2-4.5 1-6 3 1-3 3-4.5 6-6-3-1.5-5-3-6-6 3 2 4.5.5 6 3z" />
+                        </svg>
+                        <span class="line"></span>
+                    </div>
+                    <div class="timeline-text">
+                        <strong>4:30 PM</strong><br>Recepción
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon-wrapper">
+                        <svg class="floral-icon" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2c1.5 3-1.5 4.5 0 7 1.5-2.5 4.5-1 6-3-1 3-3 4.5-6 6 3 1.5 5 3 6 6-3-2-4.5-1-6-3-1.5 2.5 1.5 4 0 7-1.5-3 1.5-4.5 0-7-1.5 2-4.5 1-6 3 1-3 3-4.5 6-6-3-1.5-5-3-6-6 3 2 4.5.5 6 3z" />
+                        </svg>
+                        <span class="line"></span>
+                    </div>
+                    <div class="timeline-text">
+                        <strong>5:00 PM</strong><br>Ceremonia
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon-wrapper">
+                        <svg class="floral-icon" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2c1.5 3-1.5 4.5 0 7 1.5-2.5 4.5-1 6-3-1 3-3 4.5-6 6 3 1.5 5 3 6 6-3-2-4.5-1-6-3-1.5 2.5 1.5 4 0 7-1.5-3 1.5-4.5 0-7-1.5 2-4.5 1-6 3 1-3 3-4.5 6-6-3-1.5-5-3-6-6 3 2 4.5.5 6 3z" />
+                        </svg>
+                    </div>
+                    <div class="timeline-text">
+                        <strong>10:30 PM</strong><br>Música y dinámicas
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <h2>Dress Code</h2>
+            <p class="dress">Formal.<br>El color blanco será exclusivo para la novia</p>
+            <div class="dress-icons">
+                <i class="fa-solid fa-user-tie"></i>
+                <i class="fa-solid fa-person-dress"></i>
+            </div>
+        </section>
+
+        <section class="gifts-section">
+            <h2>Mesa de Regalos</h2>
+
+            <div class="gift-buttons">
+                <a href="https://www.amazon.com.mx/wedding/share/DavidyEsme" target="_blank" class="gift-btn amazon">
+                    <i class="fa-brands fa-amazon"></i> Amazon
+                </a>
+
+                <a href="https://mesaderegalos.liverpool.com.mx/tu-mesa" target="_blank" class="gift-btn liverpool">
+                    <i class="fa-solid fa-gift"></i> Liverpool
+                </a>
+            </div>
+        </section>
+
+
+        <section>
+            <img src="img/foto-extra.jpg"
+                style="width:100%;max-width:650px;border-radius:30px;box-shadow:0 20px 40px rgba(0,0,0,.2)">
+        </section>
+
+        <section class="rsvp-section">
+            <h2>Confirmación de Asistencia</h2>
+            <p>Por favor confirma tu asistencia antes del <strong>30 de septiembre de 2026</strong>.</p>
+
+            <form id="rsvpForm">
+                <input type="text" name="nombre" placeholder="Tu nombre completo" required>
+
+                <textarea name="comentarios" placeholder="¿Algún comentario o mensaje para nosotros?"
+                    rows="4"></textarea>
+
+                <button type="submit" id="submitBtn">Confirmar asistencia</button>
+                <div id="spinner" class="spinner"></div>
+            </form>
+            <p id="formMessage"></p>
+        </section>
+
+        <footer>
+            Con todo nuestro amor, gracias por acompañarnos en este momento tan especial.<br><br>
+            Los queremos y esperamos contar con su presencia <br>♥ ATTE: David & Esme
+        </footer>
+
+    </div>
+
+    <script>
+        // INVITADO
+        const p = new URLSearchParams(location.search).get('invitado');
+        if (p) document.getElementById('guestName').innerText = `Querido/a ${p}, estás invitado/a`;
+
+        // SCROLL
+        const sections = document.querySelectorAll('section');
+        const reveal = () => { sections.forEach(s => { if (s.getBoundingClientRect().top < window.innerHeight * 0.85) s.classList.add('visible') }) };
+        window.addEventListener('scroll', reveal); reveal();
+
+        // RSVP
+        const form = document.getElementById("rsvpForm");
+        const message = document.getElementById("formMessage");
+        const spinner = document.getElementById("spinner");
+        const button = document.getElementById("submitBtn");
+        let sending = false;
+        form.addEventListener("submit", e => {
+            e.preventDefault();
+            if (sending) return;   // 🚫 evita doble envío
+            sending = true;
+
+            button.disabled = true;
+            spinner.style.display = "block";
+            const data = {
+                nombre: form.nombre.value,
+                comentarios: form.comentarios.value
+            };
+            form.style.display = "none";
+            message.innerText = "✨ Gracias por confirmar. Tu información se ha guardado correctamente 🤍 ✨";
+
+            fetch("https://script.google.com/macros/s/AKfycbwrztGaP24RyRUCrtlRO45zg03o1mpZiQCzXgkCd95Mdeg7wII4cq4JzedPWEXCq2WEKw/exec", {
+                method: "POST",
+                body: JSON.stringify(data)
+            }).catch(() => {
+                message.innerText = "Ocurrió un error, intenta más tarde.";
+            });
+        });
+    </script>
+
+    <script>
+        const weddingDate = new Date("October 30, 2026 16:30:00").getTime();
+
+        const ids = ["days", "hours", "minutes", "seconds"];
+
+        function animateNumber(id, value) {
+            const el = document.getElementById(id);
+            if (el.innerText != value) {
+                el.classList.add("animate");
+                setTimeout(() => {
+                    el.innerText = value;
+                    el.classList.remove("animate");
+                }, 180);
+            }
+        }
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance < 0) {
+                document.getElementById("countdown").innerHTML =
+                    "✨ Hoy celebramos nuestro amor ✨";
+                return;
+            }
+
+            animateNumber("days", Math.floor(distance / (1000 * 60 * 60 * 24)));
+            animateNumber("hours", Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            animateNumber("minutes", Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+            animateNumber("seconds", Math.floor((distance % (1000 * 60)) / 1000));
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+    <script>
+        const carousel = document.getElementById("coverflow");
+        const cards = carousel.querySelectorAll(".card");
+        const dotsContainer = document.getElementById("carouselDots");
+
+        let index = 0;
+        let auto;
+
+        // Crear dots dinámicamente
+        cards.forEach((_, i) => {
+            const dot = document.createElement("span");
+            dot.addEventListener("click", () => {
+                index = i;
+                updateCarousel();
+                restartAuto();
+            });
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = dotsContainer.querySelectorAll("span");
+
+        function updateCarousel() {
+            cards.forEach(c => c.className = "card");
+            dots.forEach(d => d.classList.remove("active"));
+
+            cards[index].classList.add("active");
+            cards[(index + 1) % cards.length].classList.add("next");
+            cards[(index - 1 + cards.length) % cards.length].classList.add("prev");
+
+            dots[index].classList.add("active");
+        }
+
+        function nextSlide() {
+            index = (index + 1) % cards.length;
+            updateCarousel();
+        }
+
+        function restartAuto() {
+            clearInterval(auto);
+            auto = setInterval(nextSlide, 4500);
+        }
+
+        // Pausa solo cuando el cursor está encima
+        carousel.addEventListener("mouseenter", () => clearInterval(auto));
+        carousel.addEventListener("mouseleave", restartAuto);
+
+        updateCarousel();
+        restartAuto();
+    </script>
+
+
+</body>
+
+</html>
