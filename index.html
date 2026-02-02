@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Libre+Baskerville:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -87,7 +86,7 @@
         }
 
         h2 {
-            font-family: 'Great Vibes', cursive;
+            font-family: 'Oooh Baby', cursive;
             font-size: 3.5rem;
             margin-bottom: 35px;
         }
@@ -149,8 +148,8 @@
         }
 
         .names h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 9.2rem;
+            font-family: 'Oooh Baby', cursive;
+            font-size: 4.2rem;
             letter-spacing: 15px;
             animation: fadeNames 2.5s ease forwards;
         }
@@ -183,19 +182,60 @@
         }
 
         /* PADRES / ICONOS */
-        .icons {
+        .parents {
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 90px;
+            align-items: stretch;
+            /* 👈 importante */
             flex-wrap: wrap;
-            font-size: 1.4rem;
         }
 
-        .icons i {
-            color: var(--gold);
-            font-size: 2rem;
-            margin-bottom: 10px;
+        .parent-card {
+            width: 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        .parent-icon-wrap {
+            height: 50px;
+            /* ALTURA FIJA */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .parent-icon {
+            width: 85px;
+        }
+
+        .parent-title {
+            min-height: 1px;
+            font-size: 1.2rem;
+            margin-bottom: 1px;
+            color: var(--gold);
+        }
+
+        .parent-names {
+            line-height: 1.3;
+            font-size: 1.2rem;
+            /* 👈 más grande, elegante */
+            line-height: 1;
+        }
+
+        .parent-icon,
+        .dress-icon {
+            transition: transform .3s ease, opacity .3s ease;
+        }
+
+        .parent-icon:hover,
+        .dress-icon:hover {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
 
         /* CARRUSEL SIMPLE */
         .mini-carousel {
@@ -393,14 +433,12 @@
             letter-spacing: 2px;
         }
 
-        .dress-icons {
-            font-size: 2.2rem;
-            color: var(--gold);
-            display: flex;
-            justify-content: center;
-            gap: 30px;
+        .dress-icon {
+            width: 180px;
             margin-top: 20px;
+            opacity: 0.9;
         }
+
 
         .rsvp-section {
             text-align: center;
@@ -467,7 +505,7 @@
         footer {
             padding: 80px 30px;
             color: var(--soft);
-            font-size: 1.00rem;
+            font-size: .9rem;
         }
     </style>
 </head>
@@ -487,10 +525,11 @@
                     src="img/portada1.jpg">
             </div>
             <div class="names">
-                <h1>David & Esme</h1>
+                <h1>David & Esmeralda</h1>
                 <p id="guestName"></p>
             </div>
         </div>
+        <h1>30 de Octubre de 2026</h1>
         <div class="countdown-line" id="countdown">
             <span><strong id="days">0</strong> días</span>
             <span>·</span>
@@ -508,32 +547,47 @@
         </section>
 
         <section>
-            <p class="text">Con la bendición de Dios y el amor que nos une, queremos compartir con ustedes uno de los
-                días más importantes de nuestras vidas e invitarlos a celebrar nuestra unión.</p>
+            <p class="text">Con la bendición de Dios y el amor que nos une, <br>queremos compartir con ustedes uno de
+                los días más importantes <br>de nuestras vidas e invitarlos a celebrar nuestra unión.</p>
         </section>
 
         <section>
             <h2>Nuestros Padres</h2>
-            <div class="icons">
-                <div>
-                    <i class="fa-solid fa-user-tie"></i><br>Padres del Novio:
-                    <br><br>Martín Adrián Beltrán Gil
-                    <br> Pilar Isela Bórquez Rodríguez
+
+            <div class="parents">
+
+                <div class="parent-card">
+                    <div class="parent-icon-wrap">
+                        <img src="img/groom.png" class="parent-icon" alt="Padres del novio">
+                    </div>
+                    <p class="parent-title">Padres del Novio:</p>
+                    <p class="parent-names">
+                        Martín Adrián Beltrán Gil<br>
+                        Pilar Isela Bórquez Rodríguez
+                    </p>
                 </div>
-                <div>
-                    <i class="fa-solid fa-person-dress"></i><br>Padres de la Novia:
-                    <br><br>Jose Antorio Zavala Ruíz
-                    <br>Cecilia Serrano Gómez
+
+                <div class="parent-card">
+                    <div class="parent-icon-wrap">
+                        <img src="img/bride.png" class="parent-icon" alt="Padres de la novia">
+                    </div>
+                    <p class="parent-title">Padres de la Novia:</p>
+                    <p class="parent-names">
+                        Jose Antonio Zavala Ruíz<br>
+                        Cecilia Serrano Gómez
+                    </p>
                 </div>
+
             </div>
         </section>
-        <section>
-            <h2><i class="fa-solid fa-location-dot"></i> Jardín el Encanto</h2>
-            <p>Mapa</p>
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.706849320123!2d-109.03003989999999!3d25.7472063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86ba250906bb1513%3A0xd625358c68b0ed25!2sEl%20Encanto%20Jard%C3%ADn%20de%20Eventos!5e0!3m2!1ses-419!2smx!4v1768802787988!5m2!1ses-419!2smx"
-                width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+        <h2><i class="fa-solid fa-location-dot"></i> Jardín el Encanto</h2>
+        <p>Mapa</p>
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.706849320123!2d-109.03003989999999!3d25.7472063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86ba250906bb1513%3A0xd625358c68b0ed25!2sEl%20Encanto%20Jard%C3%ADn%20de%20Eventos!5e0!3m2!1ses-419!2smx!4v1768802787988!5m2!1ses-419!2smx"
+            width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
         </section>
         <section>
             <h2>Nuestros Padrinos</h2>
@@ -618,12 +672,11 @@
         </section>
 
         <section>
-            <h2>Dress Code</h2>
-            <p class="dress">Formal.<br>El color blanco será exclusivo para la novia</p>
-            <div class="dress-icons">
-                <i class="fa-solid fa-user-tie"></i>
-                <i class="fa-solid fa-person-dress"></i>
-            </div>
+            <h2>Dress Code - Formal</h2>
+            <img src="img/dress.png" class="dress-icon" alt="Dress code">
+            <p class="dress">Agradecemos a nuestros invitados reserviar <br> el color blanco exclusivamente
+                para
+                la novia.</p>
         </section>
 
         <section class="gifts-section">
@@ -663,8 +716,8 @@
         </section>
 
         <footer>
-            Con todo nuestro amor, gracias por acompañarnos en este momento tan especial.<br><br>
-            Los queremos y esperamos contar con su presencia <br>♥ ATTE: David & Esme
+            De lo más profundo de nuestro corazón les agradecemos por acompañarnos en este momento tan especial.<br>
+            Los queremos y esperamos contar con su presencia <br>♥ ATTE: David & Esmeralda
         </footer>
 
     </div>
