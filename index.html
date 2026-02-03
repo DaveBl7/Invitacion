@@ -11,12 +11,112 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
+        #music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background: #c9a24d;
+            /* dorado elegante */
+            color: white;
+            font-size: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            z-index: 9999;
+            transition: transform 0.3s ease;
+        }
+
+        #music-player:hover {
+            transform: scale(1.1);
+        }
+
+        .hero {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .hero img {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            transform: translateY(-10%);
+        }
+
+        .fecha {
+            max-width: 700px;
+            margin: 40px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+        }
+
+        /* BLOQUES */
+        .fecha-derecha,
+        .fecha-izquierda {
+            width: 30%;
+            text-align: center;
+            transition: all 1.1s ease;
+        }
+
+        /* TEXTO */
+        .fecha-derecha-mes,
+        .fecha-izquierda-hora-2 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            color: #7a6a4a;
+        }
+
+        .fecha-derecha-dia,
+        .fecha-izquierda-hora {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5.2rem;
+            color: #c6a75e;
+            margin: 0px 0;
+        }
+
+        /* LÍNEA CENTRAL */
+        .fecha-division {
+            width: 1px;
+            height: 90px;
+            background: linear-gradient(to bottom,
+                    transparent,
+                    #c6a75e,
+                    transparent);
+        }
+
+        /* ANIMACIONES INICIALES */
+        .fecha-derecha {
+            transform: translateX(-60px);
+        }
+
+        .fecha-izquierda {
+            transform: translateX(60px);
+        }
+
+        /* CUANDO SE VE */
+        .fecha.visible {
+            opacity: 1;
+        }
+
+        .fecha.visible .fecha-derecha,
+        .fecha.visible .fecha-izquierda {
+            transform: translateX(0);
+        }
+
         .countdown-line {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            margin: 30px 0;
+            margin: 20px 0 40px;
             font-family: 'Libre Baskerville', serif;
             font-size: 1.45rem;
             color: #6b5b3e;
@@ -72,7 +172,7 @@
         }
 
         section {
-            padding: 90px 25px;
+            padding: 10px 20px;
             opacity: 0;
             transform: translateY(60px);
             transition: all 1.2s ease;
@@ -144,7 +244,7 @@
             justify-content: center;
             align-items: center;
             color: white;
-            background: rgba(0, 0, 0, .35);
+            background: rgba(0, 0, 0, .17);
         }
 
         .names h1 {
@@ -175,10 +275,10 @@
         }
 
         .text {
-            max-width: 900px;
-            margin: auto;
+            max-width: 2000px;
+            margin: 10 px auto;
             line-height: 1.4;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
         }
 
         /* PADRES / ICONOS */
@@ -219,7 +319,6 @@
         }
 
         .parent-names {
-            line-height: 1.3;
             font-size: 1.2rem;
             /* 👈 más grande, elegante */
             line-height: 1;
@@ -234,29 +333,6 @@
         .dress-icon:hover {
             transform: scale(1.1);
             opacity: 1;
-        }
-
-
-        /* CARRUSEL SIMPLE */
-        .mini-carousel {
-            position: relative;
-            width: 100%;
-            max-width: 380px;
-            height: 260px;
-            margin: auto;
-            overflow: hidden;
-            border-radius: 18px;
-        }
-
-        .mini-carousel img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            /* 👈 mantiene proporción */
-            opacity: 0;
-            transition: opacity 1s ease;
         }
 
         .mini-carousel img.active {
@@ -334,7 +410,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 10px;
             text-align: center;
             font-family: 'Libre Baskerville', serif;
             font-size: .95rem;
@@ -366,13 +442,13 @@
 
 
         .itinerary-section {
-            max-width: 520px;
-            margin: 90px auto;
-            padding: 0 20px;
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 0 5px;
         }
 
         .itinerary-title {
-            text-align: center;
+            text-align: justify;
             font-family: 'Playfair Display', serif;
             font-size: 32px;
             color: #2c2c2c;
@@ -386,8 +462,8 @@
 
         .timeline-item {
             display: flex;
-            gap: 18px;
-            margin-bottom: 30px;
+            gap: 10px;
+            margin-bottom: 1px;
         }
 
         .icon-wrapper {
@@ -407,11 +483,11 @@
 
         .line {
             width: 1px;
-            height: 34px;
+            height: 24px;
             background: linear-gradient(to bottom,
                     #c6a75e,
                     rgba(198, 167, 94, 0.3));
-            margin-top: 6px;
+            margin-top: 3px;
         }
 
         .timeline-text {
@@ -442,7 +518,7 @@
 
         .rsvp-section {
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
         }
 
         #rsvpForm {
@@ -503,18 +579,95 @@
         }
 
         footer {
-            padding: 80px 30px;
+            padding: 30px 10px;
             color: var(--soft);
             font-size: .9rem;
+        }
+
+        /* ===== MESA DE REGALOS ===== */
+        .gifts-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .amazon-card {
+            width: 260px;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .15);
+            transition: transform .3s ease, box-shadow .3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .amazon-card img {
+            width: 180px;
+            margin-bottom: 12px;
+        }
+
+        .amazon-card span {
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .amazon-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 50px rgba(0, 0, 0, .2);
+        }
+
+        .bank-card {
+            width: 300px;
+            background: #fffaf0;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .15);
+            text-align: left;
+        }
+
+        .bank-card h3 {
+            margin-top: 0;
+            color: #c6a75e;
+            text-align: center;
+        }
+
+        .bank-card p {
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .bank-card small {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            color: #7a7a7a;
+            font-size: 0.8rem;
         }
     </style>
 </head>
 
 <body>
-
-    <audio controls autoplay loop>
+    <audio id="bg-music" loop>
         <source src="img/cancion.mp3" type="audio/mpeg">
     </audio>
+
+    <div id="music-player">
+        🎵
+    </div>
+
+    <div class="hero">
+        <img src="img/background.jpg" alt="Portada">
+    </div>
+    <div class="names">
+        <h1>David <br>& <br>Esmeralda</h1>
+        <p id="guestName"></p>
+    </div>
 
     <div class="paper">
 
@@ -524,12 +677,9 @@
                 <img src="img/portada1.jpg"><img src="img/portada2.jpg"><img src="img/portada3.jpg"><img
                     src="img/portada1.jpg">
             </div>
-            <div class="names">
-                <h1>David & Esmeralda</h1>
-                <p id="guestName"></p>
-            </div>
+
         </div>
-        <h1>30 de Octubre de 2026</h1>
+        <p class="phrase">Para la celebración de nuestra anhelada boda faltan:</p>
         <div class="countdown-line" id="countdown">
             <span><strong id="days">0</strong> días</span>
             <span>·</span>
@@ -539,11 +689,23 @@
             <span>·</span>
             <span><strong id="seconds">0</strong> seg</span>
         </div>
+        <section class="fecha reveal-fecha">
+            <div class="fecha-derecha">
+                <h2 class="fecha-derecha-dia">30</h2>
+                <h3 class="fecha-derecha-mes">Octubre</h3>
+            </div>
 
+            <div class="fecha-division"></div>
+
+            <div class="fecha-izquierda">
+                <h2 class="fecha-izquierda-hora">17:00</h2>
+                <h3 class="fecha-izquierda-hora-2">Horas</h3>
+            </div>
+        </section>
         <section>
-            <p class="phrase">“El amor crece cuando se comparte.” <br>— Antoine de Saint-Exupéry</p><br><br><br>
+            <p class="phrase">“El amor crece cuando se comparte.” <br>— Antoine de Saint-Exupéry</p><br><br>
             <p class="phrase">Uno solo puede ser vencido, pero dos pueden resistir.<br>
-                ¡La cuerda de tres hilos no se rompe fácilmente!<br> - Eclesiastés 4:12.
+                ¡La cuerda de tres hilos no se rompe fácilmente!<br> - Eclesiastés 4:12.</p>
         </section>
 
         <section>
@@ -558,7 +720,7 @@
 
                 <div class="parent-card">
                     <div class="parent-icon-wrap">
-                        <img src="img/groom.png" class="parent-icon" alt="Padres del novio">
+                        <img src="img/novio.png" class="parent-icon" alt="Padres del novio">
                     </div>
                     <p class="parent-title">Padres del Novio:</p>
                     <p class="parent-names">
@@ -569,7 +731,7 @@
 
                 <div class="parent-card">
                     <div class="parent-icon-wrap">
-                        <img src="img/bride.png" class="parent-icon" alt="Padres de la novia">
+                        <img src="img/novia.png" class="parent-icon" alt="Padres de la novia">
                     </div>
                     <p class="parent-title">Padres de la Novia:</p>
                     <p class="parent-names">
@@ -581,13 +743,13 @@
             </div>
         </section>
 
-
-        <h2><i class="fa-solid fa-location-dot"></i> Jardín el Encanto</h2>
-        <p>Mapa</p>
-        <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.706849320123!2d-109.03003989999999!3d25.7472063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86ba250906bb1513%3A0xd625358c68b0ed25!2sEl%20Encanto%20Jard%C3%ADn%20de%20Eventos!5e0!3m2!1ses-419!2smx!4v1768802787988!5m2!1ses-419!2smx"
-            width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <section>
+            <h2><i class="fa-solid fa-location-dot"></i> El Herradero</h2>
+            <p>Mapa</p>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3590.9374517108363!2d-108.9665086!3d25.8386063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86ba28f1e1136751%3A0x62de7f773dac9353!2ssalon%20Eventos%20El%20Herradero!5e0!3m2!1ses-419!2smx!4v1770097237043!5m2!1ses-419!2smx"
+                width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
         </section>
         <section>
             <h2>Nuestros Padrinos</h2>
@@ -627,45 +789,105 @@
 
         <section class="itinerary-section">
             <h2> Itinerario</h2>
-
             <div class="timeline">
 
                 <div class="timeline-item">
                     <div class="icon-wrapper">
                         <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2c1.5 3-1.5 4.5 0 7 1.5-2.5 4.5-1 6-3-1 3-3 4.5-6 6 3 1.5 5 3 6 6-3-2-4.5-1-6-3-1.5 2.5 1.5 4 0 7-1.5-3 1.5-4.5 0-7-1.5 2-4.5 1-6 3 1-3 3-4.5 6-6-3-1.5-5-3-6-6 3 2 4.5.5 6 3z" />
+                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
                         </svg>
                         <span class="line"></span>
                     </div>
-                    <div class="timeline-text">
-                        <strong>4:30 PM</strong><br>Recepción
-                    </div>
+                    <div class="timeline-text"><strong>4:30 PM</strong> - Recepción</div>
                 </div>
 
                 <div class="timeline-item">
                     <div class="icon-wrapper">
                         <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2c1.5 3-1.5 4.5 0 7 1.5-2.5 4.5-1 6-3-1 3-3 4.5-6 6 3 1.5 5 3 6 6-3-2-4.5-1-6-3-1.5 2.5 1.5 4 0 7-1.5-3 1.5-4.5 0-7-1.5 2-4.5 1-6 3 1-3 3-4.5 6-6-3-1.5-5-3-6-6 3 2 4.5.5 6 3z" />
+                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
                         </svg>
                         <span class="line"></span>
                     </div>
-                    <div class="timeline-text">
-                        <strong>5:00 PM</strong><br>Ceremonia
-                    </div>
+                    <div class="timeline-text"><strong>5:00 PM</strong> - Ceremonia</div>
                 </div>
 
                 <div class="timeline-item">
                     <div class="icon-wrapper">
                         <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2c1.5 3-1.5 4.5 0 7 1.5-2.5 4.5-1 6-3-1 3-3 4.5-6 6 3 1.5 5 3 6 6-3-2-4.5-1-6-3-1.5 2.5 1.5 4 0 7-1.5-3 1.5-4.5 0-7-1.5 2-4.5 1-6 3 1-3 3-4.5 6-6-3-1.5-5-3-6-6 3 2 4.5.5 6 3z" />
+                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                        </svg>
+                        <span class="line"></span>
+                    </div>
+                    <div class="timeline-text"><strong>5:30 PM</strong> - Sesión de fotos y coffee</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon-wrapper">
+                        <svg class="floral-icon" viewBox="0 0 24 24">
+                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                        </svg>
+                        <span class="line"></span>
+                    </div>
+                    <div class="timeline-text"><strong>6:15 PM</strong> - Entrada de novios</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon-wrapper">
+                        <svg class="floral-icon" viewBox="0 0 24 24">
+                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                        </svg>
+                        <span class="line"></span>
+                    </div>
+                    <div class="timeline-text"><strong>6:30 PM</strong> - Aperitivos</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon-wrapper">
+                        <svg class="floral-icon" viewBox="0 0 24 24">
+                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                        </svg>
+                        <span class="line"></span>
+                    </div>
+                    <div class="timeline-text"><strong>7:00 PM</strong> - Baile de los novios</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon-wrapper">
+                        <svg class="floral-icon" viewBox="0 0 24 24">
+                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                        </svg>
+                        <span class="line"></span>
+                    </div>
+                    <div class="timeline-text"><strong>7:30 PM</strong> - Cena</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon-wrapper">
+                        <svg class="floral-icon" viewBox="0 0 24 24">
+                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                        </svg>
+                        <span class="line"></span>
+                    </div>
+                    <div class="timeline-text"><strong>8:30 PM</strong> - Dinámicas y brindis</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon-wrapper">
+                        <svg class="floral-icon" viewBox="0 0 24 24">
+                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                        </svg>
+                        <span class="line"></span>
+                    </div>
+                    <div class="timeline-text"><strong>9:00 PM</strong> - Momentos especiales</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon-wrapper">
+                        <svg class="floral-icon" viewBox="0 0 24 24">
+                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
                         </svg>
                     </div>
-                    <div class="timeline-text">
-                        <strong>10:30 PM</strong><br>Música y dinámicas
-                    </div>
+                    <div class="timeline-text"><strong>10:00 PM</strong> - Cierre y despedida</div>
                 </div>
 
             </div>
@@ -681,17 +903,33 @@
 
         <section class="gifts-section">
             <h2>Mesa de Regalos</h2>
+            <p>Si desean bendecirnos con algún detalle o aportación monetaria,<br> lo recibiremos con mucho
+                agradecimiento
+                por los siguientes medios: </p>
+            <div class="gifts-container">
 
-            <div class="gift-buttons">
-                <a href="https://www.amazon.com.mx/wedding/share/DavidyEsme" target="_blank" class="gift-btn amazon">
-                    <i class="fa-brands fa-amazon"></i> Amazon
+                <!-- BOTÓN AMAZON -->
+                <a href="https://www.amazon.com.mx/wedding/share/DavidyEsme" target="_blank" class="amazon-card">
+                    <img src="img/amazon.png" alt="Mesa de regalos Amazon">
                 </a>
 
-                <a href="https://mesaderegalos.liverpool.com.mx/tu-mesa" target="_blank" class="gift-btn liverpool">
-                    <i class="fa-solid fa-gift"></i> Liverpool
-                </a>
+                <!-- TARJETA TRANSFERENCIA -->
+                <div class="bank-card">
+                    <h3>Transferencia Bancaria</h3>
+                    <p>
+                        <strong>Banco:</strong> BBVA<br>
+                        <strong>Nombre:</strong> David Beltrán<br>
+                        <strong>No. de Tarjeta:</strong>
+                        4152313771056947<br>
+                        <strong>Clabe Interbancaria:</strong>
+                        012743015426556397
+                    </p>
+                    <small>¡Gracias por todo el cariño!</small>
+                </div>
+
             </div>
         </section>
+
 
 
         <section>
@@ -717,10 +955,33 @@
 
         <footer>
             De lo más profundo de nuestro corazón les agradecemos por acompañarnos en este momento tan especial.<br>
-            Los queremos y esperamos contar con su presencia <br>♥ ATTE: David & Esmeralda
+            Los queremos y esperamos contar con su presencia. <br>♥ ATTE: David & Esmeralda
         </footer>
 
     </div>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const scroll = window.scrollY;
+            document.querySelector('.hero img').style.transform =
+                `translateY(${scroll * 0.2 - 10}px)`;
+        });
+    </script>
+    <script>
+        const fecha = document.querySelector('.reveal-fecha');
+
+        const revealFecha = () => {
+            const top = fecha.getBoundingClientRect().top;
+            const trigger = window.innerHeight * 0.8;
+
+            if (top < trigger) {
+                fecha.classList.add('visible');
+            }
+        };
+
+        window.addEventListener('scroll', revealFecha);
+        revealFecha();
+    </script>
 
     <script>
         // INVITADO
