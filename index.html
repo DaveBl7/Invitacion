@@ -11,30 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        #music-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 55px;
-            height: 55px;
-            background: #c9a24d;
-            /* dorado elegante */
-            color: white;
-            font-size: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-            z-index: 9999;
-            transition: transform 0.3s ease;
-        }
-
-        #music-player:hover {
-            transform: scale(1.1);
-        }
-
         .hero {
             height: 100vh;
             overflow: hidden;
@@ -244,7 +220,7 @@
             justify-content: center;
             align-items: center;
             color: white;
-            background: rgba(0, 0, 0, .17);
+            background: rgba(206, 206, 206, 0.426);
         }
 
         .names h1 {
@@ -649,36 +625,76 @@
             color: #7a7a7a;
             font-size: 0.8rem;
         }
+
+        .save-date-btn {
+            margin-top: 15px;
+            padding: 12px 30px;
+            border-radius: 30px;
+            background: #c6a75e;
+            color: white;
+            text-decoration: none;
+            font-size: .9rem;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
+            transition: all .3s ease;
+        }
+
+        .save-date-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 35px rgba(0, 0, 0, .35);
+        }
+
+        #music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background: #c9a24d;
+            /* dorado elegante */
+            color: white;
+            font-size: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            z-index: 9999;
+            transition: transform 0.3s ease;
+        }
+
+        #music-player:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
 <body>
-    <audio id="bg-music" loop>
-        <source src="img/cancion.mp3" type="audio/mpeg">
-    </audio>
-
-    <div id="music-player">
-        🎵
-    </div>
-
     <div class="hero">
         <img src="img/background.jpg" alt="Portada">
-    </div>
-    <div class="names">
-        <h1>David <br>& <br>Esmeralda</h1>
-        <p id="guestName"></p>
+        <div class="names">
+            <h1>David <br>& <br>Esmeralda</h1>
+            <section class="fecha reveal-fecha">
+                <div class="fecha-derecha">
+                    <h2 class="fecha-derecha-dia">30</h2>
+                    <h3 class="fecha-derecha-mes">Octubre</h3>
+                </div>
+
+                <div class="fecha-division"></div>
+
+                <div class="fecha-izquierda">
+                    <h2 class="fecha-izquierda-hora">17:00</h2>
+                    <h3 class="fecha-izquierda-hora-2">Horas</h3>
+                </div>
+            </section>
+            <p class="phrase">Uno solo puede ser vencido, pero dos pueden resistir.<br>
+                ¡La cuerda de tres hilos no se rompe fácilmente!<br> - Eclesiastés 4:12.</p>
+        </div>
     </div>
 
     <div class="paper">
 
-        <!-- HERO -->
-        <div class="carousel">
-            <div class="carousel-track">
-                <img src="img/portada1.jpg"><img src="img/portada2.jpg"><img src="img/portada3.jpg"><img
-                    src="img/portada1.jpg">
-            </div>
-
-        </div>
         <p class="phrase">Para la celebración de nuestra anhelada boda faltan:</p>
         <div class="countdown-line" id="countdown">
             <span><strong id="days">0</strong> días</span>
@@ -689,28 +705,24 @@
             <span>·</span>
             <span><strong id="seconds">0</strong> seg</span>
         </div>
-        <section class="fecha reveal-fecha">
-            <div class="fecha-derecha">
-                <h2 class="fecha-derecha-dia">30</h2>
-                <h3 class="fecha-derecha-mes">Octubre</h3>
+        <!-- HERO -->
+        <div class="carousel">
+            <div class="carousel-track">
+                <img src="img/portada3.jpg"><img src="img/portada1.jpg"><img src="img/portada2.jpg"><img
+                    src="img/anilo.jpg">
             </div>
+        </div>
 
-            <div class="fecha-division"></div>
-
-            <div class="fecha-izquierda">
-                <h2 class="fecha-izquierda-hora">17:00</h2>
-                <h3 class="fecha-izquierda-hora-2">Horas</h3>
-            </div>
-        </section>
         <section>
-            <p class="phrase">“El amor crece cuando se comparte.” <br>— Antoine de Saint-Exupéry</p><br><br>
-            <p class="phrase">Uno solo puede ser vencido, pero dos pueden resistir.<br>
-                ¡La cuerda de tres hilos no se rompe fácilmente!<br> - Eclesiastés 4:12.</p>
+            <p class="phrase">“El amor crece cuando se comparte.” <br>— Antoine de Saint-Exupéry</p><br>
         </section>
 
         <section>
             <p class="text">Con la bendición de Dios y el amor que nos une, <br>queremos compartir con ustedes uno de
                 los días más importantes <br>de nuestras vidas e invitarlos a celebrar nuestra unión.</p>
+            <a href="save-the-date.ics" class="save-date-btn" download>
+                📅 Save the Date
+            </a>
         </section>
 
         <section>
@@ -744,7 +756,7 @@
         </section>
 
         <section>
-            <h2><i class="fa-solid fa-location-dot"></i> El Herradero</h2>
+            <h2><i class="fa-solid fa-location-dot"></i> Lugar: El Herradero.</h2>
             <p>Mapa</p>
             <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3590.9374517108363!2d-108.9665086!3d25.8386063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86ba28f1e1136751%3A0x62de7f773dac9353!2ssalon%20Eventos%20El%20Herradero!5e0!3m2!1ses-419!2smx!4v1770097237043!5m2!1ses-419!2smx"
@@ -933,7 +945,7 @@
 
 
         <section>
-            <img src="img/anilo.jpg"
+            <img src="img/invitacion.png"
                 style="width:100%;max-width:650px;border-radius:30px;box-shadow:0 20px 40px rgba(0,0,0,.2)">
         </section>
 
@@ -957,7 +969,13 @@
             De lo más profundo de nuestro corazón les agradecemos por acompañarnos en este momento tan especial.<br>
             Los queremos y esperamos contar con su presencia. <br>♥ ATTE: David & Esmeralda
         </footer>
+        <audio id="bg-music" loop>
+            <source src="img/cancion.mp3" type="audio/mpeg">
+        </audio>
 
+        <div id="music-player">
+            🎵
+        </div>
     </div>
 
     <script>
@@ -967,6 +985,7 @@
                 `translateY(${scroll * 0.2 - 10}px)`;
         });
     </script>
+
     <script>
         const fecha = document.querySelector('.reveal-fecha');
 
@@ -1107,6 +1126,22 @@
         restartAuto();
     </script>
 
+    <script>
+        const music = document.getElementById('bg-music');
+        const button = document.getElementById('music-player');
+        let isPlaying = false;
+
+        button.addEventListener('click', () => {
+            if (!isPlaying) {
+                music.play();
+                button.textContent = '⏸️';
+            } else {
+                music.pause();
+                button.textContent = '🎵';
+            }
+            isPlaying = !isPlaying;
+        });
+    </script>
 
 </body>
 
