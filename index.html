@@ -667,10 +667,105 @@
         #music-player:hover {
             transform: scale(1.1);
         }
+
+        @media (max-width: 768px) {
+
+            /* ===== HERO ===== */
+            .hero {
+                height: 100vh;
+            }
+
+            .hero img {
+                height: 110%;
+                transform: translateY(-5%);
+            }
+
+            /* ===== NOMBRES ===== */
+            .names h1 {
+                font-size: 2.8rem;
+                letter-spacing: 6px;
+                line-height: 1.2;
+                padding: 0 15px;
+            }
+
+            /* ===== FECHA ===== */
+            .fecha {
+                gap: 12px;
+                margin: 20px auto;
+            }
+
+            .fecha-derecha-dia,
+            .fecha-izquierda-hora {
+                font-size: 3.5rem;
+            }
+
+            .fecha-derecha-mes,
+            .fecha-izquierda-hora-2 {
+                font-size: 0.85rem;
+                letter-spacing: 2px;
+            }
+
+            .fecha-division {
+                height: 70px;
+            }
+
+            /* ===== FRASES ===== */
+            .phrase {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+
+            /* ===== PAPER ===== */
+            .paper {
+                margin: 20px 10px;
+                border-radius: 20px;
+            }
+
+            /* ===== CARRUSEL ===== */
+            .carousel img {
+                height: 60vh;
+                width: 100%;
+            }
+
+            /* ===== PADRES ===== */
+            .parents {
+                gap: 40px;
+            }
+
+            /* ===== ITINERARIO ===== */
+            .itinerary-section {
+                max-width: 100%;
+            }
+
+            .timeline-text {
+                font-size: 14px;
+            }
+
+            /* ===== DRESS CODE ===== */
+            .dress-icon {
+                width: 140px;
+            }
+
+            /* ===== BOTÓN SAVE DATE ===== */
+            .save-date-btn {
+                font-size: 0.8rem;
+                padding: 10px 24px;
+            }
+
+            /* ===== MÚSICA ===== */
+            #music-player {
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
     </style>
 </head>
 
 <body>
+
     <div class="hero">
         <img src="img/background.jpg" alt="Portada">
         <div class="names">
@@ -718,7 +813,8 @@
         </section>
 
         <section>
-            <p class="text">Con la bendición de Dios y el amor que nos une, <br>queremos compartir con ustedes uno de
+            <p class="text">Con la bendición de Dios y el amor que nos une, <br>queremos compartir con ustedes uno
+                de
                 los días más importantes <br>de nuestras vidas e invitarlos a celebrar nuestra unión.</p>
             <a href="save-the-date.ics" class="save-date-btn" download>
                 📅 Save the Date
@@ -771,7 +867,8 @@
                         <div class="card-front" style="background-image:url('img/selene.png')">
                         </div>
                         <div class="card-back">
-                            <p>Selene Bórquez.<br><br> Gracias por su gran apoyo desde el día que nos comprometimos💍🤍
+                            <p>Selene Bórquez.<br><br> Gracias por su gran apoyo desde el día que nos
+                                comprometimos💍🤍
                             </p>
                         </div>
                     </div>
@@ -942,8 +1039,6 @@
             </div>
         </section>
 
-
-
         <section>
             <img src="img/invitacion.png"
                 style="width:100%;max-width:650px;border-radius:30px;box-shadow:0 20px 40px rgba(0,0,0,.2)">
@@ -969,15 +1064,13 @@
             De lo más profundo de nuestro corazón les agradecemos por acompañarnos en este momento tan especial.<br>
             Los queremos y esperamos contar con su presencia. <br>♥ ATTE: David & Esmeralda
         </footer>
-        <audio id="bg-music" loop>
-            <source src="img/cancion.mp3" type="audio/mpeg">
-        </audio>
 
-        <div id="music-player">
-            🎵
-        </div>
     </div>
-
+    </div>
+    <audio id="bg-music" loop>
+        <source src="img/cancion.mp3" type="audio/mpeg">
+    </audio>
+    <div id="music-player">🎵</div>
     <script>
         window.addEventListener('scroll', () => {
             const scroll = window.scrollY;
@@ -1003,10 +1096,6 @@
     </script>
 
     <script>
-        // INVITADO
-        const p = new URLSearchParams(location.search).get('invitado');
-        if (p) document.getElementById('guestName').innerText = `Querido/a ${p}, estás invitado/a`;
-
         // SCROLL
         const sections = document.querySelectorAll('section');
         const reveal = () => { sections.forEach(s => { if (s.getBoundingClientRect().top < window.innerHeight * 0.85) s.classList.add('visible') }) };
@@ -1128,16 +1217,17 @@
 
     <script>
         const music = document.getElementById('bg-music');
-        const button = document.getElementById('music-player');
+        music.volume = 0.6;
+        const musicBtn = document.getElementById('music-player'); // 👈 CAMBIO
         let isPlaying = false;
 
-        button.addEventListener('click', () => {
+        musicBtn.addEventListener('click', () => {
             if (!isPlaying) {
-                music.play();
-                button.textContent = '⏸️';
+                music.play().catch(e => console.log(e));
+                musicBtn.textContent = '⏸️';
             } else {
                 music.pause();
-                button.textContent = '🎵';
+                musicBtn.textContent = '🎵';
             }
             isPlaying = !isPlaying;
         });
