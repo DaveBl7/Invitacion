@@ -159,6 +159,7 @@
         section.visible {
             opacity: 1;
             transform: translateY(0);
+            will-change: transform, opacity;
         }
 
         h2 {
@@ -252,7 +253,7 @@
 
         .text {
             max-width: 2000px;
-            margin: 10 px auto;
+            margin: 10px auto;
             line-height: 1.4;
             font-size: 1.1rem;
         }
@@ -646,14 +647,13 @@
 
         #music-player {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            top: 20px;
+            left: 20px;
             width: 55px;
             height: 55px;
             background: #c9a24d;
-            /* dorado elegante */
             color: white;
-            font-size: 24px;
+            font-size: 22px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -690,8 +690,8 @@
 
             /* ===== FECHA ===== */
             .fecha {
-                gap: 12px;
-                margin: 20px auto;
+                gap: 15px;
+                margin: 12px auto;
             }
 
             .fecha-derecha-dia,
@@ -701,12 +701,12 @@
 
             .fecha-derecha-mes,
             .fecha-izquierda-hora-2 {
-                font-size: 0.85rem;
+                font-size: 1.11rem;
                 letter-spacing: 2px;
             }
 
             .fecha-division {
-                height: 70px;
+                height: 40px;
             }
 
             /* ===== FRASES ===== */
@@ -757,15 +757,14 @@
                 width: 48px;
                 height: 48px;
                 font-size: 20px;
-                bottom: 15px;
-                right: 15px;
+                bottom: 20px;
+                right: 20px;
             }
         }
     </style>
 </head>
 
 <body>
-
     <div class="hero">
         <img src="img/background.jpg" alt="Portada">
         <div class="names">
@@ -790,7 +789,8 @@
 
     <div class="paper">
 
-        <p class="phrase">Para la celebración de nuestra anhelada boda faltan:</p>
+        <br>
+        <p class="phrase">Para la celebración de nuestra anhelada unión faltan:</p>
         <div class="countdown-line" id="countdown">
             <span><strong id="days">0</strong> días</span>
             <span>·</span>
@@ -1064,20 +1064,12 @@
             De lo más profundo de nuestro corazón les agradecemos por acompañarnos en este momento tan especial.<br>
             Los queremos y esperamos contar con su presencia. <br>♥ ATTE: David & Esmeralda
         </footer>
-
+        <audio id="bg-music" preload="auto" loop>
+            <source src="img/cancion.mp3" type="audio/mpeg">
+        </audio>
+        <div id="music-player"><i class="fa-solid fa-music"></i>
+        </div>
     </div>
-    </div>
-    <audio id="bg-music" loop>
-        <source src="img/cancion.mp3" type="audio/mpeg">
-    </audio>
-    <div id="music-player">🎵</div>
-    <script>
-        window.addEventListener('scroll', () => {
-            const scroll = window.scrollY;
-            document.querySelector('.hero img').style.transform =
-                `translateY(${scroll * 0.2 - 10}px)`;
-        });
-    </script>
 
     <script>
         const fecha = document.querySelector('.reveal-fecha');
@@ -1216,23 +1208,40 @@
     </script>
 
     <script>
-        const music = document.getElementById('bg-music');
-        music.volume = 0.6;
-        const musicBtn = document.getElementById('music-player'); // 👈 CAMBIO
-        let isPlaying = false;
-
-        musicBtn.addEventListener('click', () => {
-            if (!isPlaying) {
-                music.play().catch(e => console.log(e));
-                musicBtn.textContent = '⏸️';
-            } else {
-                music.pause();
-                musicBtn.textContent = '🎵';
-            }
-            isPlaying = !isPlaying;
+        window.addEventListener('scroll', () => {
+            const scroll = window.scrollY;
+            document.querySelector('.hero img').style.transform =
+                `translateY(${scroll * 0.2 - 10}px)`;
         });
     </script>
+    <script>
+        (() => {
+            const music = document.getElementById("bg-music");
+            const button = document.getElementById("music-player");
+            const icon = button.querySelector("i");
+            let playing = false;
 
+            button.addEventListener("click", () => {
+                if (!playing) {
+                    music.muted = false;
+
+                    const playPromise = music.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            playing = true;
+                            icon.className = "fa-solid fa-pause";
+                        }).catch(err => {
+                            console.error("Audio bloqueado:", err);
+                        });
+                    }
+                } else {
+                    music.pause();
+                    playing = false;
+                    icon.className = "fa-solid fa-music";
+                }
+            });
+        })();
+    </script>
 </body>
 
 </html>
