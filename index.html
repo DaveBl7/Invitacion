@@ -11,6 +11,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
+        #skipIntro {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 10;
+        }
+
+        /* se muestra SOLO cuando el video está corriendo */
+        #skipIntro.visible {
+            opacity: 1;
+        }
+
         /* Quitar scroll al inicio */
         body {
             margin: 0;
@@ -831,6 +850,7 @@
         <button id="playButton">
             Toca aquí para abrir
         </button>
+        <div id="skipIntro">Omitir intro</div>
     </div>
 
     <!-- CONTENIDO REAL -->
@@ -1148,12 +1168,37 @@
         const intro = document.getElementById("intro");
         const button = document.getElementById("playButton");
         const content = document.getElementById("mainContent");
+        const skipIntro = document.getElementById("skipIntro");
 
         button.addEventListener("click", () => {
             video.play();
             button.style.display = "none";
         });
 
+        playButton.addEventListener("click", () => {
+            video.play();
+            playButton.style.display = "none";
+            skipIntro.classList.add("visible");
+        });
+        skipIntro.addEventListener("click", () => {
+            video.pause();
+            video.currentTime = video.duration;
+
+            cerrarIntro();
+        });
+        function cerrarIntro() {
+            intro.style.opacity = "0";
+            intro.style.transition = "opacity 1s ease";
+
+            setTimeout(() => {
+                intro.remove();
+                content.style.display = "block";
+                document.body.style.overflow = "auto";
+
+                reveal();
+                revealFecha();
+            }, 1000);
+        }
         video.addEventListener("ended", () => {
             intro.style.opacity = "0";
             intro.style.transition = "opacity 1s ease";
