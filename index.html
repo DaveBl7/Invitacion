@@ -11,6 +11,58 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
+        /* Quitar scroll al inicio */
+        body {
+            margin: 0;
+            font-family: 'Libre Baskerville', serif;
+            background: linear-gradient(180deg, #efe8dc, var(--paper));
+            color: var(--text);
+            text-align: center;
+        }
+
+        /* Intro fullscreen */
+        #intro {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Video pantalla completa */
+        #intro video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Botón transparente */
+        #playButton {
+            position: absolute;
+            padding: 16px 28px;
+            font-size: 18px;
+            letter-spacing: 2px;
+            background: rgba(255, 255, 255, 0);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0);
+            border-radius: 50px;
+            backdrop-filter: blur(1px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #playButton:hover {
+            background: rgba(255, 255, 255, 0);
+        }
+
+        /* Contenido oculto al inicio */
+        #mainContent {
+            display: none;
+            padding: 40px;
+        }
+
         .hero {
             height: 100vh;
             overflow: hidden;
@@ -129,14 +181,6 @@
             --soft: #7a7a7a;
         }
 
-        body {
-            margin: 0;
-            font-family: 'Libre Baskerville', serif;
-            background: linear-gradient(180deg, #efe8dc, var(--paper));
-            color: var(--text);
-            text-align: center;
-        }
-
         /* PAPEL / PERGAMINO */
         .paper {
             max-width: 1100px;
@@ -161,15 +205,12 @@
             padding: 10px 20px;
             opacity: 0;
             transform: translateY(60px);
-            transition: all 1.2s ease;
-            position: relative;
-            z-index: 2;
+            transition: opacity 1s ease, transform 1s ease;
         }
 
         section.visible {
             opacity: 1;
             transform: translateY(0);
-            will-change: transform, opacity;
         }
 
         h2 {
@@ -780,347 +821,394 @@
 </head>
 
 <body>
+    <!-- INTRO -->
+    <div id="intro">
+        <video id="introVideo" playsinline>
+            <source src="img/video.mp4" type="video/mp4">
+            Tu navegador no soporta video.
+        </video>
 
-    <div class="hero">
-        <img src="img/background.jpg" alt="Portada">
-        <div class="names">
-            <h1>David <br>& <br>Esmeralda</h1>
-            <section class="fecha reveal-fecha">
-                <div class="fecha-derecha">
-                    <h2 class="fecha-derecha-dia">30</h2>
-                    <h3 class="fecha-derecha-mes">Octubre</h3>
+        <button id="playButton">
+            Toca aquí para abrir
+        </button>
+    </div>
+
+    <!-- CONTENIDO REAL -->
+    <div id="mainContent">
+
+        <div class="hero">
+            <img src="img/background.jpg" alt="Portada">
+            <div class="names">
+                <h1>David <br>& <br>Esmeralda</h1>
+                <section class="fecha reveal-fecha">
+                    <div class="fecha-derecha">
+                        <h2 class="fecha-derecha-dia">30</h2>
+                        <h3 class="fecha-derecha-mes">Octubre</h3>
+                    </div>
+
+                    <div class="fecha-division"></div>
+
+                    <div class="fecha-izquierda">
+                        <h2 class="fecha-izquierda-hora">17:00</h2>
+                        <h3 class="fecha-izquierda-hora-2">Horas</h3>
+                    </div>
+                </section>
+                <p class="phrase">Uno solo puede ser vencido, pero dos pueden resistir.<br>
+                    ¡La cuerda de tres hilos no se rompe fácilmente!<br> - Eclesiastés 4:12.</p>
+            </div>
+        </div>
+
+        <div class="paper">
+
+            <br>
+            <p class="phrase">Para la celebración de nuestra anhelada unión faltan:</p>
+            <div class="countdown-line" id="countdown">
+                <span><strong id="days">0</strong> días</span>
+                <span>·</span>
+                <span><strong id="hours">0</strong> horas</span>
+                <span>·</span>
+                <span><strong id="minutes">0</strong> min</span>
+                <span>·</span>
+                <span><strong id="seconds">0</strong> seg</span>
+            </div>
+            <!-- HERO -->
+            <div class="carousel">
+                <div class="carousel-track">
+                    <img src="img/anilo.jpg"><img src="img/portada3.jpg"><img src="img/portada1.jpg"><img
+                        src="img/portada2.jpg">
                 </div>
+            </div>
 
-                <div class="fecha-division"></div>
+            <section>
+                <p class="phrase">“El amor crece cuando se comparte.” <br>— Antoine de Saint-Exupéry</p><br>
+            </section>
 
-                <div class="fecha-izquierda">
-                    <h2 class="fecha-izquierda-hora">17:00</h2>
-                    <h3 class="fecha-izquierda-hora-2">Horas</h3>
+            <section>
+                <p class="text">Con la bendición de Dios y el amor que nos une, <br>queremos compartir con ustedes uno
+                    de los días más importantes <br>de nuestras vidas e invitarlos a celebrar nuestra unión.</p><br>
+                <a href="save-the-date.ics" class="save-date-btn" download>
+                    📅 Save the Date
+                </a>
+            </section>
+
+            <section>
+                <h2>Nuestros Padres</h2>
+
+                <div class="parents">
+
+                    <div class="parent-card">
+                        <div class="parent-icon-wrap">
+                            <img src="img/novio.png" class="parent-icon" alt="Padres del novio">
+                        </div>
+                        <p class="parent-title">Padres del Novio:</p>
+                        <p class="parent-names">
+                            Martín Adrián Beltrán Gil<br>
+                            Pilar Isela Bórquez Rodríguez
+                        </p>
+                    </div>
+
+                    <div class="parent-card">
+                        <div class="parent-icon-wrap">
+                            <img src="img/novia.png" class="parent-icon" alt="Padres de la novia">
+                        </div>
+                        <p class="parent-title">Padres de la Novia:</p>
+                        <p class="parent-names">
+                            Jose Antonio Zavala Ruíz<br>
+                            Cecilia Serrano Gómez
+                        </p>
+                    </div>
+
                 </div>
             </section>
-            <p class="phrase">Uno solo puede ser vencido, pero dos pueden resistir.<br>
-                ¡La cuerda de tres hilos no se rompe fácilmente!<br> - Eclesiastés 4:12.</p>
+
+            <section>
+                <h2><i class="fa-solid fa-location-dot"></i> Lugar: Quinta Grisel.</h2>
+                <p>Mapa</p>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3594.9453076079185!2d-109.0325953!3d25.706234799999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86ba25329776f1cf%3A0xa3d1a78ae0e89f9b!2sQuinta%20Grisel!5e0!3m2!1ses-419!2smx!4v1770611354274!5m2!1ses-419!2smx"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </section>
+
+            <section class="itinerary-section">
+                <h2> Itinerario</h2>
+                <div class="timeline">
+
+                    <div class="timeline-item">
+                        <div class="icon-wrapper">
+                            <svg class="floral-icon" viewBox="0 0 24 24">
+                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                            </svg>
+                            <span class="line"></span>
+                        </div>
+                        <div class="timeline-text"><strong>4:30 PM</strong> - Recepción</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="icon-wrapper">
+                            <svg class="floral-icon" viewBox="0 0 24 24">
+                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                            </svg>
+                            <span class="line"></span>
+                        </div>
+                        <div class="timeline-text"><strong>5:00 PM</strong> - Ceremonia</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="icon-wrapper">
+                            <svg class="floral-icon" viewBox="0 0 24 24">
+                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                            </svg>
+                            <span class="line"></span>
+                        </div>
+                        <div class="timeline-text"><strong>5:30 PM</strong> - Sesión de fotos y coffee</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="icon-wrapper">
+                            <svg class="floral-icon" viewBox="0 0 24 24">
+                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                            </svg>
+                            <span class="line"></span>
+                        </div>
+                        <div class="timeline-text"><strong>6:15 PM</strong> - Entrada de novios</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="icon-wrapper">
+                            <svg class="floral-icon" viewBox="0 0 24 24">
+                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                            </svg>
+                            <span class="line"></span>
+                        </div>
+                        <div class="timeline-text"><strong>6:30 PM</strong> - Aperitivos</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="icon-wrapper">
+                            <svg class="floral-icon" viewBox="0 0 24 24">
+                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                            </svg>
+                            <span class="line"></span>
+                        </div>
+                        <div class="timeline-text"><strong>7:00 PM</strong> - Baile de los novios</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="icon-wrapper">
+                            <svg class="floral-icon" viewBox="0 0 24 24">
+                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                            </svg>
+                            <span class="line"></span>
+                        </div>
+                        <div class="timeline-text"><strong>7:30 PM</strong> - Cena</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="icon-wrapper">
+                            <svg class="floral-icon" viewBox="0 0 24 24">
+                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                            </svg>
+                            <span class="line"></span>
+                        </div>
+                        <div class="timeline-text"><strong>8:30 PM</strong> - Dinámicas y brindis</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="icon-wrapper">
+                            <svg class="floral-icon" viewBox="0 0 24 24">
+                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                            </svg>
+                            <span class="line"></span>
+                        </div>
+                        <div class="timeline-text"><strong>9:00 PM</strong> - Momentos especiales</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="icon-wrapper">
+                            <svg class="floral-icon" viewBox="0 0 24 24">
+                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
+                            </svg>
+                        </div>
+                        <div class="timeline-text"><strong>10:00 PM</strong> - Cierre y despedida</div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section>
+                <h2>Dress Code - Formal</h2>
+                <img src="img/dress.png" class="dress-icon" alt="Dress code">
+                <p class="dress">Agradecemos a nuestros invitados reservar el color blanco exclusivamente
+                    para la novia.<br>Evitar colores como gris claro, perla o similares.</p><br>
+                <p class="phrase">IMPORTANTE: Aunque amamos a sus hijos, pedimos amablemente que esta celebración sea
+                    exclusiva para adultos, para su comodidad y la de nuestros invitados. </p>
+            </section>
+
+            <section class="gifts-section">
+                <h2>Mesa de Regalos</h2>
+                <p>Si en tu corazón está el bendecirnos con algún detalle o aportación financiera, lo
+                    recibiremos con
+                    mucho agradecimiento por los siguientes medios: </p>
+                <div class="gifts-container">
+
+                    <!-- BOTÓN AMAZON -->
+                    <a href="https://www.amazon.com.mx/wedding/share/DavidyEsme" target="_blank" class="amazon-card">
+                        <img src="img/amazon.png" alt="Mesa de regalos Amazon">
+                    </a>
+
+                    <!-- TARJETA TRANSFERENCIA -->
+                    <div class="bank-card">
+                        <h3>Transferencia Bancaria</h3>
+                        <p>
+                            <strong>Banco:</strong> BBVA<br>
+                            <strong>Nombre:</strong> David Beltrán<br>
+                            <strong>No. de Tarjeta:</strong>
+                            4152313771056947<br>
+                            <strong>Clabe Interbancaria:</strong>
+                            012743015426556397
+                        </p>
+                        <small>¡Gracias por todo el cariño!</small>
+                    </div>
+
+                </div>
+            </section>
+
+            <section>
+                <img src="img/invitacion.png"
+                    style="width:100%;max-width:650px;border-radius:30px;box-shadow:0 20px 40px rgba(0,0,0,.2)">
+            </section>
+
+            <section class="rsvp-section">
+                <h2>Confirmación de Asistencia</h2>
+                <p>Por favor confirma tu asistencia antes del <strong>01 de Octubre de 2026</strong>.</p>
+
+                <form id="rsvpForm">
+                    <input type="text" name="nombre" placeholder="Tu nombre completo" required>
+
+                    <textarea name="comentarios" placeholder="Mensaje para los novios o canción para la Playlist"
+                        rows="4"></textarea>
+
+                    <button type="submit" id="submitBtn">Confirmar asistencia</button>
+                    <div id="spinner" class="spinner"></div>
+                </form>
+                <p id="formMessage"></p>
+            </section>
+            <section>
+                <h2>Nuestros Padrinos</h2>
+                <div class="coverflow-carousel" id="coverflow">
+                    <div class="card active">
+                        <div class="card-inner">
+                            <div class="card-front" style="background-image:url('img/selene.png')">
+                            </div>
+                            <div class="card-back">
+                                <p>Selene Bórquez.<br><br> Gracias por su gran apoyo desde el día que nos
+                                    comprometimos💍🤍
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card next">
+                        <div class="card-inner">
+                            <div class="card-front" style="background-image:url('img/joel.png')">
+                            </div>
+                            <div class="card-back">
+                                <p>Joel Bórquez.<br><br> Gracias por aportar con el sonido, le queremos✨</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card prev">
+                        <div class="card-inner">
+                            <div class="card-front" style="background-image:url('img/esa.png')"></div>
+                            <div class="card-back">
+                                <p>Esahu Bórquez.<br><br> Gracias por siempre apoyarnos y animarnos a dar este paso</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </section>
+
+            <footer>
+                De lo más profundo de nuestro corazón les agradecemos por acompañarnos en este momento tan especial.<br>
+                Los queremos y esperamos contar con su presencia. <br>♥ ATTE: David & Esmeralda
+            </footer>
+            <audio id="bg-music" preload="auto" loop>
+                <source src="img/cancion.mp3" type="audio/mpeg">
+            </audio>
+            <div id="music-player"><i class="fa-solid fa-music"></i>
+            </div>
         </div>
     </div>
 
-    <div class="paper">
+    <script>
+        const video = document.getElementById("introVideo");
+        const intro = document.getElementById("intro");
+        const button = document.getElementById("playButton");
+        const content = document.getElementById("mainContent");
 
-        <br>
-        <p class="phrase">Para la celebración de nuestra anhelada unión faltan:</p>
-        <div class="countdown-line" id="countdown">
-            <span><strong id="days">0</strong> días</span>
-            <span>·</span>
-            <span><strong id="hours">0</strong> horas</span>
-            <span>·</span>
-            <span><strong id="minutes">0</strong> min</span>
-            <span>·</span>
-            <span><strong id="seconds">0</strong> seg</span>
-        </div>
-        <!-- HERO -->
-        <div class="carousel">
-            <div class="carousel-track">
-                <img src="img/anilo.jpg"><img src="img/portada3.jpg"><img src="img/portada1.jpg"><img
-                    src="img/portada2.jpg">
-            </div>
-        </div>
+        button.addEventListener("click", () => {
+            video.play();
+            button.style.display = "none";
+        });
 
-        <section>
-            <p class="phrase">“El amor crece cuando se comparte.” <br>— Antoine de Saint-Exupéry</p><br>
-        </section>
+        video.addEventListener("ended", () => {
+            intro.style.opacity = "0";
+            intro.style.transition = "opacity 1s ease";
 
-        <section>
-            <p class="text">Con la bendición de Dios y el amor que nos une, <br>queremos compartir con ustedes uno
-                de los días más importantes <br>de nuestras vidas e invitarlos a celebrar nuestra unión.</p><br>
-            <a href="save-the-date.ics" class="save-date-btn" download>
-                📅 Save the Date
-            </a>
-        </section>
+            setTimeout(() => {
+                intro.remove();
+                content.style.display = "block";
+                document.body.style.overflow = "auto";
 
-        <section>
-            <h2>Nuestros Padres</h2>
+                reveal(); // 🔥 MUY IMPORTANTE
+            }, 1000);
+        });
+    </script>
 
-            <div class="parents">
-
-                <div class="parent-card">
-                    <div class="parent-icon-wrap">
-                        <img src="img/novio.png" class="parent-icon" alt="Padres del novio">
-                    </div>
-                    <p class="parent-title">Padres del Novio:</p>
-                    <p class="parent-names">
-                        Martín Adrián Beltrán Gil<br>
-                        Pilar Isela Bórquez Rodríguez
-                    </p>
-                </div>
-
-                <div class="parent-card">
-                    <div class="parent-icon-wrap">
-                        <img src="img/novia.png" class="parent-icon" alt="Padres de la novia">
-                    </div>
-                    <p class="parent-title">Padres de la Novia:</p>
-                    <p class="parent-names">
-                        Jose Antonio Zavala Ruíz<br>
-                        Cecilia Serrano Gómez
-                    </p>
-                </div>
-
-            </div>
-        </section>
-
-        <section>
-            <h2><i class="fa-solid fa-location-dot"></i> Lugar: Quinta Grisel.</h2>
-            <p>Mapa</p>
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3594.9453076079185!2d-109.0325953!3d25.706234799999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86ba25329776f1cf%3A0xa3d1a78ae0e89f9b!2sQuinta%20Grisel!5e0!3m2!1ses-419!2smx!4v1770611354274!5m2!1ses-419!2smx"
-                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </section>
-
-        <section class="itinerary-section">
-            <h2> Itinerario</h2>
-            <div class="timeline">
-
-                <div class="timeline-item">
-                    <div class="icon-wrapper">
-                        <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                        </svg>
-                        <span class="line"></span>
-                    </div>
-                    <div class="timeline-text"><strong>4:30 PM</strong> - Recepción</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="icon-wrapper">
-                        <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                        </svg>
-                        <span class="line"></span>
-                    </div>
-                    <div class="timeline-text"><strong>5:00 PM</strong> - Ceremonia</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="icon-wrapper">
-                        <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                        </svg>
-                        <span class="line"></span>
-                    </div>
-                    <div class="timeline-text"><strong>5:30 PM</strong> - Sesión de fotos y coffee</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="icon-wrapper">
-                        <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                        </svg>
-                        <span class="line"></span>
-                    </div>
-                    <div class="timeline-text"><strong>6:15 PM</strong> - Entrada de novios</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="icon-wrapper">
-                        <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                        </svg>
-                        <span class="line"></span>
-                    </div>
-                    <div class="timeline-text"><strong>6:30 PM</strong> - Aperitivos</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="icon-wrapper">
-                        <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                        </svg>
-                        <span class="line"></span>
-                    </div>
-                    <div class="timeline-text"><strong>7:00 PM</strong> - Baile de los novios</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="icon-wrapper">
-                        <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                        </svg>
-                        <span class="line"></span>
-                    </div>
-                    <div class="timeline-text"><strong>7:30 PM</strong> - Cena</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="icon-wrapper">
-                        <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                        </svg>
-                        <span class="line"></span>
-                    </div>
-                    <div class="timeline-text"><strong>8:30 PM</strong> - Dinámicas y brindis</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="icon-wrapper">
-                        <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                        </svg>
-                        <span class="line"></span>
-                    </div>
-                    <div class="timeline-text"><strong>9:00 PM</strong> - Momentos especiales</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="icon-wrapper">
-                        <svg class="floral-icon" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                        </svg>
-                    </div>
-                    <div class="timeline-text"><strong>10:00 PM</strong> - Cierre y despedida</div>
-                </div>
-
-            </div>
-        </section>
-
-        <section>
-            <h2>Dress Code - Formal</h2>
-            <img src="img/dress.png" class="dress-icon" alt="Dress code">
-            <p class="dress">Agradecemos a nuestros invitados reservar el color blanco exclusivamente
-                para la novia.<br>Evitar colores como gris claro, perla o similares.</p><br>
-            <p class="phrase">IMPORTANTE: Aunque amamos a sus hijos, pedimos amablemente que esta celebración sea
-                exclusiva para adultos, para su comodidad y la de nuestros invitados. </p>
-        </section>
-
-        <section class="gifts-section">
-            <h2>Mesa de Regalos</h2>
-            <p class="phrase">Si en tu corazón está el bendecirnos con algún detalle o aportación financiera, lo
-                recibiremos con
-                mucho agradecimiento por los siguientes medios: </p>
-            <div class="gifts-container">
-
-                <!-- BOTÓN AMAZON -->
-                <a href="https://www.amazon.com.mx/wedding/share/DavidyEsme" target="_blank" class="amazon-card">
-                    <img src="img/amazon.png" alt="Mesa de regalos Amazon">
-                </a>
-
-                <!-- TARJETA TRANSFERENCIA -->
-                <div class="bank-card">
-                    <h3>Transferencia Bancaria</h3>
-                    <p>
-                        <strong>Banco:</strong> BBVA<br>
-                        <strong>Nombre:</strong> David Beltrán<br>
-                        <strong>No. de Tarjeta:</strong>
-                        4152313771056947<br>
-                        <strong>Clabe Interbancaria:</strong>
-                        012743015426556397
-                    </p>
-                    <small>¡Gracias por todo el cariño!</small>
-                </div>
-
-            </div>
-        </section>
-
-        <section>
-            <img src="img/invitacion.png"
-                style="width:100%;max-width:650px;border-radius:30px;box-shadow:0 20px 40px rgba(0,0,0,.2)">
-        </section>
-
-        <section class="rsvp-section">
-            <h2>Confirmación de Asistencia</h2>
-            <p>Por favor confirma tu asistencia antes del <strong>01 de Octubre de 2026</strong>.</p>
-
-            <form id="rsvpForm">
-                <input type="text" name="nombre" placeholder="Tu nombre completo" required>
-
-                <textarea name="comentarios" placeholder="Mensaje para los novios o canción para la Playlist"
-                    rows="4"></textarea>
-
-                <button type="submit" id="submitBtn">Confirmar asistencia</button>
-                <div id="spinner" class="spinner"></div>
-            </form>
-            <p id="formMessage"></p>
-        </section>
-        <section>
-            <h2>Nuestros Padrinos</h2>
-            <div class="coverflow-carousel" id="coverflow">
-                <div class="card active">
-                    <div class="card-inner">
-                        <div class="card-front" style="background-image:url('img/selene.png')">
-                        </div>
-                        <div class="card-back">
-                            <p>Selene Bórquez.<br><br> Gracias por su gran apoyo desde el día que nos
-                                comprometimos💍🤍
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card next">
-                    <div class="card-inner">
-                        <div class="card-front" style="background-image:url('img/joel.png')">
-                        </div>
-                        <div class="card-back">
-                            <p>Joel Bórquez.<br><br> Gracias por aportar con el sonido, le queremos✨</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card prev">
-                    <div class="card-inner">
-                        <div class="card-front" style="background-image:url('img/esa.png')"></div>
-                        <div class="card-back">
-                            <p>Esahu Bórquez.<br><br> Gracias por siempre apoyarnos y animarnos a dar este paso</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-dots" id="carouselDots"></div>
-        </section>
-
-        <footer>
-            De lo más profundo de nuestro corazón les agradecemos por acompañarnos en este momento tan especial.<br>
-            Los queremos y esperamos contar con su presencia. <br>♥ ATTE: David & Esmeralda
-        </footer>
-        <audio id="bg-music" preload="auto" loop>
-            <source src="img/cancion.mp3" type="audio/mpeg">
-        </audio>
-        <div id="music-player"><i class="fa-solid fa-music"></i>
-        </div>
-    </div>
 
     <script>
         const fecha = document.querySelector('.reveal-fecha');
 
         const revealFecha = () => {
             const top = fecha.getBoundingClientRect().top;
-            const trigger = window.innerHeight * 0.8;
-
-            if (top < trigger) {
+            if (top < window.innerHeight * 0.8) {
                 fecha.classList.add('visible');
             }
         };
 
-        window.addEventListener('scroll', revealFecha);
-        revealFecha();
+        window.addEventListener("scroll", revealFecha);
     </script>
 
     <script>
-        // SCROLL
-        const sections = document.querySelectorAll('section');
-        const reveal = () => { sections.forEach(s => { if (s.getBoundingClientRect().top < window.innerHeight * 0.85) s.classList.add('visible') }) };
-        window.addEventListener('scroll', reveal); reveal();
+        // SCROLL REVEAL
+        const sections = document.querySelectorAll("section");
+
+        const reveal = () => {
+            sections.forEach(s => {
+                const rect = s.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.85) {
+                    s.classList.add("visible");
+                }
+            });
+        };
+
+        window.addEventListener("scroll", reveal);
 
         // RSVP
         const form = document.getElementById("rsvpForm");
         const message = document.getElementById("formMessage");
         const spinner = document.getElementById("spinner");
-        const button = document.getElementById("submitBtn");
+        const submitButton = document.getElementById("submitBtn");
         let sending = false;
         form.addEventListener("submit", e => {
             e.preventDefault();
             if (sending) return;   // 🚫 evita doble envío
             sending = true;
 
-            button.disabled = true;
+            submitButton.disabled = true;
             spinner.style.display = "block";
             const data = {
                 nombre: form.nombre.value,
