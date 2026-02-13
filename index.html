@@ -76,7 +76,7 @@
             position: absolute;
             top: 30px;
             right: 20px;
-            width: 100%;
+            width: auto;
             text-align: right;
             font-size: 14px;
             letter-spacing: 1px;
@@ -105,8 +105,8 @@
         body {
             margin: 0;
             padding: 0;
-            width: 100%;
-            overflow-x: hidden;
+            max-width: 100%;
+            overflow-x: hidden !important;
             scroll-behavior: smooth;
 
         }
@@ -514,7 +514,7 @@
         }
 
         .card.prev {
-            transform: translate(-120%, -50%) scale(.75);
+            transform: translate(-80%, -50%) scale(.75);
             opacity: .35;
             z-index: 2;
         }
@@ -926,6 +926,11 @@
                 right: 20px;
             }
         }
+
+        .paper,
+        .coverflow-carousel {
+            overflow-x: hidden;
+        }
     </style>
 </head>
 
@@ -933,11 +938,11 @@
     <nav id="mainMenu">
         <ul>
             <li><a href="#padres"><i class="fa-solid fa-heart"></i><span>Padres</span></a></li>
-            <li><a href="#padrinos"><i class="fa-solid fa-people-group"></i><span>Padres</span></a></li>
+            <li><a href="#padrinos"><i class="fa-solid fa-people-group"></i><span>Padrinos</span></a></li>
             <li><a href="#lugar"><i class="fa-solid fa-location-dot"></i><span>Lugar</span></a></li>
             <li><a href="#itinerario"><i class="fa-solid fa-clock"></i><span>Itinerario</span></a></li>
-            <li><a href="#dresscode"><i class="fa-solid fa-user-tie"></i><span>Dress</span></a></li>
-            <li><a href="#regalos"><i class="fa-solid fa-gift"></i><span>Mesa de Regalos</span></a></li>
+            <li><a href="#dresscode"><i class="fa-solid fa-user-tie"></i><span>Vestimenta</span></a></li>
+            <li><a href="#regalos"><i class="fa-solid fa-gift"></i><span>Regalos</span></a></li>
             <li><a href="#asistencia"><i class="fa-solid fa-envelope"></i><span>Confirmación</span></a></li>
         </ul>
     </nav>
@@ -1153,7 +1158,6 @@
                         </div>
                         <div class="timeline-text"><strong>10:00 PM</strong> - Cierre y despedida</div>
                     </div>
-
                 </div>
             </section>
 
@@ -1215,6 +1219,7 @@
                 </form>
                 <p id="formMessage"></p>
             </section>
+
             <section id="padrinos">
                 <h2>Nuestros Padrinos</h2>
                 <div class="coverflow-carousel" id="coverflow">
@@ -1407,17 +1412,24 @@
         updateCountdown();
         setInterval(updateCountdown, 1000);
     </script>
+
     <script>
+        /* ===== PAUSAR CARRUSEL HERO CUANDO NO SE VE ===== */
         const carouseltrack = document.querySelector('.carousel-track');
+        const heroCarousel = document.querySelector('.carousel');
 
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                carouseltrack.style.animationPlayState =
-                    entry.isIntersecting ? 'running' : 'paused';
-            });
-        }, { threshold: 0.3 });
+        if (carouseltrack && heroCarousel) {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    carouseltrack.style.animationPlayState =
+                        entry.isIntersecting ? 'running' : 'paused';
+                });
+            }, { threshold: 0.3 });
 
-        observer.observe(carousel);
+            observer.observe(heroCarousel);
+        }
+
+        /* ===== CARRUSEL PADRINOS ===== */
         const carousel = document.getElementById("coverflow");
         const cards = carousel.querySelectorAll(".card");
         const dotsContainer = document.getElementById("carouselDots");
@@ -1425,7 +1437,7 @@
         let index = 0;
         let auto;
 
-        // Crear dots dinámicamente
+        // Crear dots
         cards.forEach((_, i) => {
             const dot = document.createElement("span");
             dot.addEventListener("click", () => {
@@ -1459,7 +1471,6 @@
             auto = setInterval(nextSlide, 4500);
         }
 
-        // Pausa solo cuando el cursor está encima
         carousel.addEventListener("mouseenter", () => clearInterval(auto));
         carousel.addEventListener("mouseleave", restartAuto);
 
