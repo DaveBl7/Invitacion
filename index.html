@@ -11,6 +11,67 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
+        /* ===== MENÚ SUPERIOR ===== */
+        #mainMenu {
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9998;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 8px 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+            display: none;
+            /* se muestra después del intro */
+        }
+
+        #mainMenu ul {
+            list-style: none;
+            display: flex;
+            gap: 14px;
+            margin: 0;
+            padding: 0;
+        }
+
+        #mainMenu a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: #6b5b3e;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            padding: 6px 10px;
+            border-radius: 30px;
+            transition: all .3s ease;
+        }
+
+        #mainMenu a:hover {
+            background: rgba(198, 167, 94, .15);
+            color: #c6a75e;
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+            #mainMenu {
+                top: auto;
+                bottom: 15px;
+                padding: 10px 14px;
+            }
+
+            #mainMenu a span {
+                display: none;
+            }
+
+            #mainMenu a {
+                font-size: 1rem;
+                padding: 8px;
+            }
+        }
+
         #skipIntro {
             position: absolute;
             bottom: 30px;
@@ -45,6 +106,8 @@
             padding: 0;
             width: 100%;
             overflow-x: hidden;
+            scroll-behavior: smooth;
+
         }
 
         /* Intro fullscreen */
@@ -866,6 +929,17 @@
 </head>
 
 <body>
+    <nav id="mainMenu">
+        <ul>
+            <li><a href="#padres"><i class="fa-solid fa-heart"></i><span>Padres</span></a></li>
+            <li><a href="#padrinos"><i class="fa-solid fa-people-group"></i><span>Padres</span></a></li>
+            <li><a href="#lugar"><i class="fa-solid fa-location-dot"></i><span>Lugar</span></a></li>
+            <li><a href="#itinerario"><i class="fa-solid fa-clock"></i><span>Itinerario</span></a></li>
+            <li><a href="#dresscode"><i class="fa-solid fa-user-tie"></i><span>Dress</span></a></li>
+            <li><a href="#regalos"><i class="fa-solid fa-gift"></i><span>Mesa de Regalos</span></a></li>
+            <li><a href="#asistencia"><i class="fa-solid fa-envelope"></i><span>Confirmación</span></a></li>
+        </ul>
+    </nav>
     <!-- INTRO -->
     <div id="intro">
         <video id="introVideo" playsinline>
@@ -937,7 +1011,7 @@
                 </a>
             </section>
 
-            <section>
+            <section id="padres">
                 <h2>Nuestros Padres</h2>
 
                 <div class="parents">
@@ -967,7 +1041,7 @@
                 </div>
             </section>
 
-            <section>
+            <section id="lugar">
                 <h2><i class="fa-solid fa-location-dot"></i> Lugar: Quinta Grisel.</h2>
                 <p>Mapa</p>
                 <iframe
@@ -976,7 +1050,7 @@
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
             </section>
 
-            <section class="itinerary-section">
+            <section id="itinerario" class="itinerary-section">
                 <h2> Itinerario</h2>
                 <div class="timeline">
 
@@ -1082,7 +1156,7 @@
                 </div>
             </section>
 
-            <section>
+            <section id="dresscode">
                 <h2>Dress Code - Formal</h2>
                 <img src="img/dress.png" class="dress-icon" alt="Dress code">
                 <p class="dress">Agradecemos a nuestros invitados reservar el color blanco exclusivamente
@@ -1091,7 +1165,7 @@
                     exclusiva para adultos, para su comodidad y la de nuestros invitados. </p>
             </section>
 
-            <section class="gifts-section">
+            <section id="regalos" class="gifts-section">
                 <h2>Mesa de Regalos</h2>
                 <p>Si en tu corazón está el bendecirnos con algún detalle o aportación financiera, lo
                     recibiremos con
@@ -1125,7 +1199,7 @@
                     style="width:100%;max-width:650px;border-radius:30px;box-shadow:0 20px 40px rgba(0,0,0,.2)">
             </section>
 
-            <section class="rsvp-section">
+            <section id="asistencia" class="rsvp-section">
                 <h2>Confirmación de Asistencia</h2>
                 <p>Por favor confirma tu asistencia antes del <strong>01 de Octubre de 2026</strong>.</p>
 
@@ -1140,7 +1214,7 @@
                 </form>
                 <p id="formMessage"></p>
             </section>
-            <section>
+            <section id="padrinos">
                 <h2>Nuestros Padrinos</h2>
                 <div class="coverflow-carousel" id="coverflow">
                     <div class="card active">
@@ -1220,7 +1294,7 @@
                 intro.remove();
                 content.style.display = "block";
                 document.body.style.overflow = "auto";
-
+                document.getElementById("mainMenu").style.display = "block";
                 reveal();
                 revealFecha();
             }, 1000);
