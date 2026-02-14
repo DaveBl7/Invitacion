@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Great+Vibes&family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -67,8 +69,17 @@
             }
 
             #mainMenu a {
-                font-size: 1rem;
-                padding: 8px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            #mainMenu .menu-text {
+                display: inline !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                font-size: 14px;
+                white-space: nowrap;
             }
         }
 
@@ -340,6 +351,8 @@
         /* CARRUSEL */
         .carousel {
             position: relative;
+            width: 100%;
+            height: 70vh;
             overflow: hidden;
         }
 
@@ -350,7 +363,7 @@
 
         .carousel img {
             width: 100%;
-            height: 100vh;
+            height: 70vh;
             object-fit: cover;
         }
 
@@ -490,6 +503,12 @@
             perspective: 1200px;
         }
 
+        #coverflow {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
         .card {
             position: absolute;
             top: 50%;
@@ -508,21 +527,21 @@
 
         /* LADOS */
         .card.next {
-            transform: translate(20%, -50%) scale(.75);
+            transform: translate(20%, -50%) scale(.8);
             opacity: .35;
             z-index: 2;
         }
 
         .card.prev {
-            transform: translate(-80%, -50%) scale(.75);
+            transform: translate(-80%, -50%) scale(.8);
             opacity: .35;
             z-index: 2;
         }
 
         /* TARJETA */
         .card-inner {
-            width: 100%;
-            height: 100%;
+            width: 85%;
+            height: 85%;
             transition: transform .7s;
             transform-style: preserve-3d;
         }
@@ -563,7 +582,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 18px;
+            margin-top: 10px;
         }
 
         .carousel-dots span {
@@ -931,22 +950,6 @@
         .coverflow-carousel {
             overflow-x: hidden;
         }
-
-        @media (max-width: 768px) {
-            #mainMenu a {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            #mainMenu .menu-text {
-                display: inline !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                font-size: 14px;
-                white-space: nowrap;
-            }
-        }
     </style>
 </head>
 
@@ -1292,17 +1295,14 @@
         const content = document.getElementById("mainContent");
         const skipIntro = document.getElementById("skipIntro");
 
-        button.addEventListener("click", () => {
-            video.play();
-            button.style.display = "none";
-        });
-
         playButton.addEventListener("click", () => {
+            startMusic(); // 🎵 AQUÍ
             video.play();
             playButton.style.display = "none";
             skipIntro.classList.add("visible");
         });
         skipIntro.addEventListener("click", () => {
+            startMusic(); // 🎵 AQUÍ TAMBIÉN
             video.pause();
             video.currentTime = video.duration;
 
@@ -1329,12 +1329,43 @@
                 intro.remove();
                 content.style.display = "block";
                 document.body.style.overflow = "auto";
-
-                reveal(); // 🔥 MUY IMPORTANTE
+                document.getElementById("mainMenu").style.display = "block";
+                reveal();
+                revealFecha();
             }, 1000);
         });
     </script>
+    <script>
+        const music = document.getElementById("bg-music");
+        let musicStarted = false;
 
+        function startMusic() {
+            if (musicStarted) return;
+
+            music.volume = 0;
+            music.muted = false;
+
+            const playPromise = music.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    musicStarted = true;
+
+                    // fade in elegante
+                    let vol = 0;
+                    const fade = setInterval(() => {
+                        if (vol < 0.6) {
+                            vol += 0.02;
+                            music.volume = vol;
+                        } else {
+                            clearInterval(fade);
+                        }
+                    }, 100);
+                }).catch(() => {
+                    // si el navegador bloquea, no pasa nada
+                });
+            }
+        }
+    </script>
 
     <script>
         const fecha = document.querySelector('.reveal-fecha');
@@ -1516,7 +1547,7 @@
             const music = document.getElementById("bg-music");
             const button = document.getElementById("music-player");
             const icon = button.querySelector("i");
-            let playing = false;
+            let playing = !music.paused;
 
             button.addEventListener("click", () => {
                 if (!playing) {
