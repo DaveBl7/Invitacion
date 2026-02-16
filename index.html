@@ -292,31 +292,22 @@
             --soft: #7a7a7a;
         }
 
-        /* PAPEL / PERGAMINO */
         .paper {
-            width: 100%;
-            margin: 10px auto;
-            background: var(--paper);
-            border-radius: 10px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, .18);
-            box-sizing: border-box;
             position: relative;
-            overflow: hidden;
+            background: none;
         }
 
-        @media (max-width: 768px) {
+        .paper {
+            background-image: url("img/hoja.png");
+            background-size: contain;
+            background-repeat: repeat;
+            background-position: center;
+        }
+
+        @media (max-width: 150px) {
             .paper {
-                box-shadow: 0 15px 15px rgba(0, 0, 0, .15);
+                background-size: contain;
             }
-        }
-
-        .paper::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: url('img/paper-texture.png');
-            opacity: .25;
-            pointer-events: none;
         }
 
         section {
@@ -742,7 +733,7 @@
         footer {
             padding: 30px 10px;
             color: var(--soft);
-            font-size: .9rem;
+            font-size: .7rem;
         }
 
         /* ===== MESA DE REGALOS ===== */
