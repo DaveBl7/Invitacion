@@ -438,7 +438,7 @@
         }
 
         .parent-card {
-            width: 240px;
+            width: 280px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -450,22 +450,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .parent-icon {
-            width: 85px;
+            width: 120px;
         }
 
         .parent-title {
             min-height: 1px;
-            font-size: 1.2rem;
+            font-size: 1rem;
             margin-bottom: 1px;
             color: var(--gold);
         }
 
         .parent-names {
-            font-size: 1.2rem;
+            font-size: 1rem;
             /* 👈 más grande, elegante */
             line-height: 1;
         }
@@ -662,7 +662,7 @@
         }
 
         .dress-icon {
-            width: 180px;
+            width: 200px;
             margin-top: 20px;
             opacity: 0.9;
         }
@@ -730,10 +730,63 @@
             animation: fadeIn 1.2s ease forwards;
         }
 
-        footer {
-            padding: 30px 10px;
+        .footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+
+            padding: 25px 15px;
+            font-size: .1rem;
             color: var(--soft);
-            font-size: .7rem;
+            text-align: center;
+
+            background: linear-gradient(to top,
+                    rgba(0, 0, 0, .85),
+                    rgba(0, 0, 0, .6),
+                    transparent);
+
+            z-index: 10;
+
+            animation: footerFadeUp 1.4s ease forwards;
+        }
+
+        @keyframes footerFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer-img {
+            width: 170px;
+            max-width: 80%;
+            display: block;
+            margin: 0 auto 12px;
+            opacity: 0;
+            animation: imgFade 1.8s ease forwards;
+            animation-delay: .6s;
+        }
+
+        @keyframes imgFade {
+            from {
+                opacity: 0;
+                transform: scale(.8);
+            }
+
+            to {
+                opacity: .7;
+                transform: scale(1);
+            }
         }
 
         /* ===== MESA DE REGALOS ===== */
@@ -1034,7 +1087,7 @@
 
                     <div class="parent-card">
                         <div class="parent-icon-wrap">
-                            <img src="img/novio.png" class="parent-icon" alt="Padres del novio">
+                            <img src="img/novio1.png" class="parent-icon" alt="Padres del novio">
                         </div>
                         <p class="parent-title">Padres del Novio:</p>
                         <p class="parent-names">
@@ -1045,7 +1098,7 @@
 
                     <div class="parent-card">
                         <div class="parent-icon-wrap">
-                            <img src="img/novia.png" class="parent-icon" alt="Padres de la novia">
+                            <img src="img/novia1.png" class="parent-icon" alt="Padres de la novia">
                         </div>
                         <p class="parent-title">Padres de la Novia:</p>
                         <p class="parent-names">
@@ -1173,7 +1226,7 @@
 
             <section id="dresscode">
                 <h2>Dress Code - Formal</h2>
-                <img src="img/dress.png" class="dress-icon" alt="Dress code">
+                <img src="img/dress1.png" class="dress-icon" alt="Dress code">
                 <p class="dress">Agradecemos a nuestros invitados reservar el color blanco exclusivamente
                     para la novia.<br>Evitar colores como gris claro, perla o similares.</p><br>
                 <p class="phrase">IMPORTANTE: Aunque amamos a sus hijos, pedimos amablemente que esta celebración sea
@@ -1268,8 +1321,8 @@
             </section>
 
             <footer>
-                De lo más profundo de nuestro corazón les agradecemos por acompañarnos en este momento tan especial.<br>
-                Los queremos y esperamos contar con su presencia. <br>♥ ATTE: David & Esmeralda
+                <img src="img/iniciales.png" alt="Decoración" class="footer-img">
+                Los queremos y esperamos contar con su presencia este día tan especial. <br>♥ ATTE: David & Esmeralda
             </footer>
             <audio id="bg-music" preload="auto" loop>
                 <source src="img/cancion.mp3" type="audio/mpeg">
