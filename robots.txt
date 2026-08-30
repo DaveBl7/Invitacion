@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://davebl7.github.io/Invitacion/sitemap.xml

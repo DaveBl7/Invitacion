@@ -1,1704 +1,409 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8" />
-    <title>Invitación de Boda | David & Esme</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Great+Vibes&family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <style>
-        /* ===== MENÚ SUPERIOR ===== */
-        #mainMenu {
-            position: fixed;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9998;
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(10px);
-            border-radius: 50px;
-            padding: 8px 14px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
-            display: none;
-            /* se muestra después del intro */
-        }
-
-        #mainMenu ul {
-            list-style: none;
-            display: flex;
-            gap: 14px;
-            margin: 0;
-            padding: 0;
-        }
-
-        #mainMenu a {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-            color: #6b5b3e;
-            font-family: 'Libre Baskerville', serif;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            padding: 6px 10px;
-            border-radius: 30px;
-            transition: all .3s ease;
-        }
-
-        #mainMenu a:hover {
-            background: rgba(198, 167, 94, .15);
-            color: #c6a75e;
-        }
-
-        /* ===== MOBILE ===== */
-        @media (max-width: 768px) {
-            #mainMenu {
-                top: auto;
-                bottom: 15px;
-                padding: 10px 14px;
-            }
-
-            #mainMenu a span {
-                display: none;
-            }
-
-            #mainMenu a {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            #mainMenu .menu-text {
-                display: inline !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                font-size: 14px;
-                white-space: nowrap;
-            }
-        }
-
-        #skipIntro {
-            position: absolute;
-            top: 15px;
-            right: 10px;
-            width: auto;
-            text-align: right;
-            font-size: 14px;
-            letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.8);
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 10;
-        }
-
-        /* se muestra SOLO cuando el video está corriendo */
-        #skipIntro.visible {
-            opacity: 1;
-        }
-
-        /* Quitar scroll al inicio */
-        body {
-            font-family: 'Libre Baskerville', serif;
-            background: linear-gradient(180deg, #efe8dc, var(--paper));
-            color: var(--text);
-            text-align: center;
-        }
-
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            max-width: 100%;
-            overflow-x: hidden !important;
-            scroll-behavior: smooth;
-
-        }
-
-        /* Intro fullscreen */
-        #intro {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        /* Video pantalla completa */
-        #intro video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Botón transparente */
-        #playButton {
-            position: absolute;
-            padding: 16px 28px;
-            font-size: 18px;
-            letter-spacing: 2px;
-            background: rgba(255, 255, 255, 0);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0);
-            border-radius: 50px;
-            backdrop-filter: blur(1px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        #playButton:hover {
-            background: rgba(255, 255, 255, 0);
-        }
-
-        /* Contenido oculto al inicio */
-        #mainContent {
-            display: none;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 5px;
-            overflow-x: hidden;
-        }
-
-        @media (max-width: 768px) {
-            #mainContent {
-                padding: 12px 12px;
-            }
-        }
-
-        .hero {
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .hero img {
-            width: 100%;
-            height: 120%;
-            object-fit: cover;
-            transform: translateY(-10%);
-        }
-
-        .fecha {
-            max-width: 700px;
-            margin: 40px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            opacity: 0;
-        }
-
-        /* BLOQUES */
-        .fecha-derecha,
-        .fecha-izquierda {
-            width: 30%;
-            text-align: center;
-            transition: all 1.1s ease;
-        }
-
-        /* TEXTO */
-        .fecha-derecha-mes,
-        .fecha-izquierda-hora-2 {
-            font-family: 'Libre Baskerville', serif;
-            font-size: 1.4rem;
-            letter-spacing: 3px;
-            color: #7a6a4a;
-            text-shadow:
-                -1px -1px 0 #fff,
-                1px -1px 0 #fff,
-                -1px 1px 0 #fff,
-                1px 1px 0 #fff;
-        }
-
-        .fecha-derecha-dia,
-        .fecha-izquierda-hora {
-            font-family: 'Great Vibes', cursive;
-            font-size: 5.2rem;
-            color: #c6a75e;
-            margin: 0px 0;
-            text-shadow:
-                -1px -1px 0 #fff,
-                1px -1px 0 #fff,
-                -1px 1px 0 #fff,
-                1px 1px 0 #fff;
-        }
-
-        /* LÍNEA CENTRAL */
-        .fecha-division {
-            width: 1%;
-            height: 100%;
-            background: linear-gradient(to bottom,
-                    transparent,
-                    #c6a75e,
-                    transparent);
-        }
-
-        /* ANIMACIONES INICIALES */
-        .fecha-derecha {
-            transform: translateX(-60px);
-        }
-
-        .fecha-izquierda {
-            transform: translateX(60px);
-        }
-
-        /* CUANDO SE VE */
-        .fecha.visible {
-            opacity: 1;
-        }
-
-        .fecha.visible .fecha-derecha,
-        .fecha.visible .fecha-izquierda {
-            transform: translateX(0);
-        }
-
-        .countdown-line {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin: 20px 0 40px;
-            font-family: 'Libre Baskerville', serif;
-            font-size: 1.45rem;
-            color: #6b5b3e;
-        }
-
-        .countdown-line strong {
-            display: inline-block;
-            min-width: 28px;
-            text-align: center;
-            font-size: 1.8rem;
-            color: #c6a75e;
-            transition: transform .35s ease, opacity .35s ease;
-        }
-
-        .countdown-line strong.animate {
-            transform: translateY(-6px);
-            opacity: .4;
-        }
-
-        :root {
-            --paper: #f7f2e8;
-            --gold: #c6a75e;
-            --text: #2f2f2f;
-            --soft: #7a7a7a;
-        }
-
-        .paper {
-            position: relative;
-            background: none;
-            background-image: url("img/hoja.png");
-            background-size: contain;
-            background-repeat: repeat;
-            background-position: center;
-        }
-
-        @media (max-width: 150px) {
-            .paper {
-                background-size: contain;
-            }
-        }
-
-        section {
-            padding: 10px 20px;
-            opacity: 0;
-            width: 100%;
-            box-sizing: border-box;
-            transform: translateY(60px);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        h2 {
-            font-family: 'Oooh Baby', cursive;
-            font-size: 3.5rem;
-            margin-bottom: 35px;
-        }
-
-        h2::after {
-            content: "";
-            width: 80px;
-            height: 2px;
-            background: var(--gold);
-            display: block;
-            margin: 18px auto 0;
-        }
-
-        /* CARRUSEL */
-        .carousel {
-            position: relative;
-            width: 100%;
-            height: 70vh;
-            overflow: hidden;
-        }
-
-        .carousel-track {
-            display: flex;
-            animation: slide 20s infinite;
-        }
-
-        .carousel img {
-            width: 100%;
-            height: 70vh;
-            object-fit: cover;
-        }
-
-        @keyframes slide {
-            0% {
-                transform: translateX(0)
-            }
-
-            33% {
-                transform: translateX(-100%)
-            }
-
-            66% {
-                transform: translateX(-200%)
-            }
-
-            100% {
-                transform: translateX(0)
-            }
-        }
-
-        /* NOMBRES */
-        .names {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            background: rgba(206, 206, 206, 0.426);
-        }
-
-        .names h1 {
-            font-family: 'Oooh Baby', cursive;
-            font-size: 4.2rem;
-            letter-spacing: 15px;
-            animation: fadeNames 2.5s ease forwards;
-        }
-
-        @keyframes fadeNames {
-            from {
-                opacity: 0;
-                transform: translateY(40px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0)
-            }
-        }
-
-        .phrase {
-            font-style: italic;
-            color: var(--soft);
-            max-width: 650px;
-            margin: auto;
-            font-size: 1.2rem;
-            text-shadow:
-                -1px -1px 0 #fff,
-                1px -1px 0 #fff,
-                -1px 1px 0 #fff,
-                1px 1px 0 #fff;
-        }
-
-        .text {
-            max-width: 2000px;
-            margin: 10px auto;
-            line-height: 1.4;
-            font-size: 1.1rem;
-        }
-
-        /* PADRES / ICONOS */
-        .parents {
-            display: flex;
-            justify-content: center;
-            gap: 90px;
-            align-items: stretch;
-            /* 👈 importante */
-            flex-wrap: wrap;
-        }
-
-        .parent-card {
-            width: 280px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .parent-icon-wrap {
-            height: 50px;
-            /* ALTURA FIJA */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-
-        .parent-icon {
-            width: 120px;
-        }
-
-        .parent-title {
-            min-height: 1px;
-            font-size: 1rem;
-            margin-bottom: 1px;
-            color: var(--gold);
-        }
-
-        .parent-names {
-            font-size: 1rem;
-            /* 👈 más grande, elegante */
-            line-height: 1;
-        }
-
-        .parent-icon,
-        .dress-icon {
-            transition: transform .3s ease, opacity .3s ease;
-        }
-
-        .parent-icon:hover,
-        .dress-icon:hover {
-            transform: scale(1.1);
-            opacity: 1;
-        }
-
-        .mini-carousel img.active {
-            opacity: 1;
-        }
-
-        .coverflow-carousel {
-            position: relative;
-            width: 100%;
-            max-width: 580px;
-            height: 320px;
-            margin: auto;
-            perspective: 1200px;
-        }
-
-        #coverflow {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .card {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 240px;
-            height: 300px;
-            transform-style: preserve-3d;
-            transition: all 1s ease;
-        }
-
-        /* CENTRO */
-        .card.active {
-            transform: translate(-50%, -50%) scale(1);
-            z-index: 3;
-        }
-
-        /* LADOS */
-        .card.next {
-            transform: translate(20%, -50%) scale(.8);
-            opacity: .35;
-            z-index: 2;
-        }
-
-        .card.prev {
-            transform: translate(-80%, -50%) scale(.8);
-            opacity: .35;
-            z-index: 2;
-        }
-
-        /* TARJETA */
-        .card-inner {
-            width: 85%;
-            height: 85%;
-            transition: transform .7s;
-            transform-style: preserve-3d;
-        }
-
-        /* FLIP AL HOVER */
-        .card.active:hover .card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-front,
-        .card-back {
-            position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            backface-visibility: hidden;
-        }
-
-        .card-front {
-            background-size: cover;
-            background-position: center;
-            box-shadow: 0 20px 40px rgba(255, 234, 4, 0);
-        }
-
-        .card-back {
-            background: #462f01;
-            color: #ffdfa3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            text-align: center;
-            font-family: 'Libre Baskerville', serif;
-            font-size: .95rem;
-            transform: rotateY(180deg);
-        }
-
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .carousel-dots span {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: #d8c8a0;
-            opacity: .4;
-            cursor: pointer;
-            transition: all .3s ease;
-        }
-
-        .carousel-dots span.active {
-            opacity: 1;
-            background: #c6a75e;
-            transform: scale(1.3);
-        }
-
-
-        .itinerary-section {
-            max-width: 500px;
-            margin: 10px auto;
-            padding: 0 5px;
-        }
-
-        .itinerary-title {
-            text-align: justify;
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            color: #2c2c2c;
-            margin-bottom: 50px;
-        }
-
-        .timeline-item {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .timeline-item.left .timeline-image {
-            order: 1;
-        }
-
-        .timeline-item.left .timeline-content {
-            order: 2;
-        }
-
-        .timeline-item.right .timeline-image {
-            order: 2;
-        }
-
-        .timeline-item.right .timeline-content {
-            order: 1;
-        }
-
-        /* Imagen */
-        .timeline-image img {
-            width: 45%;
-            max-width: 120px;
-            border-radius: 0px;
-            box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
-            object-fit: cover;
-        }
-
-        /* Texto */
-        .timeline-content {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-        }
-
-        .timeline-item {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1s ease;
-        }
-
-        .timeline-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .timeline-item.left .timeline-image {
-            transform: translateX(-40px);
-        }
-
-        .timeline-item.right .timeline-image {
-            transform: translateX(40px);
-        }
-
-        .timeline-item.visible .timeline-image {
-            transform: translateX(0);
-        }
-
-        .icon-wrapper {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .floral-icon {
-            width: 20px;
-            height: 20px;
-            fill: none;
-            stroke: #c6a75e;
-            stroke-width: 1.2;
-        }
-
-        .line {
-            width: 1px;
-            height: 24px;
-            background: linear-gradient(to bottom,
-                    #c6a75e,
-                    rgba(198, 167, 94, 0.3));
-            margin-top: 3px;
-        }
-
-        .timeline-text {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 15px;
-            color: #444;
-            line-height: 1.4;
-        }
-
-        .timeline-text strong {
-            color: #2c2c2c;
-            font-weight: 600;
-        }
-
-        /* DRESS CODE */
-        .dress {
-            color: var(--gold);
-            font-size: 1rem;
-            letter-spacing: 2px;
-        }
-
-        .dress-icon {
-            width: 200px;
-            margin-top: 20px;
-            opacity: 0.9;
-        }
-
-
-        .rsvp-section {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        #rsvpForm {
-            max-width: 420px;
-            margin: auto;
-        }
-
-        #rsvpForm input,
-        #rsvpForm textarea {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            border: 1px solid #d8c8a0;
-            font-family: 'Libre Baskerville', serif;
-            font-size: .95rem;
-        }
-
-        #rsvpForm button {
-            background: #c6a75e;
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: .9rem;
-        }
-
-        .spinner {
-            display: none;
-            width: 32px;
-            height: 32px;
-            margin: 20px auto 0;
-            border: 3px solid #e6d8b5;
-            border-top: 3px solid #c6a75e;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-
-        #formMessage {
-            margin-top: 25px;
-            font-family: 'Libre Baskerville', serif;
-            font-size: 1.8rem;
-            /* ⬅️ tamaño más grande */
-            font-weight: 700;
-            /* ⬅️ negritas */
-            color: #c6a75e;
-            /* dorado elegante */
-            text-align: center;
-            animation: fadeIn 1.2s ease forwards;
-        }
-
-
-
-        .footer-img {
-            width: 80px;
-            max-width: 50%;
-            display: block;
-            margin: 0 auto 12px;
-            opacity: 0;
-            animation: imgFade 1.8s ease forwards;
-            animation-delay: .6s;
-        }
-
-        @keyframes imgFade {
-            from {
-                opacity: 0;
-                transform: scale(.8);
-            }
-
-            to {
-                opacity: .7;
-                transform: scale(1);
-            }
-        }
-
-        /* ===== MESA DE REGALOS ===== */
-        .gifts-container {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
-
-        .amazon-card {
-            width: 260px;
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            text-decoration: none;
-            color: #333;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, .15);
-            transition: transform .3s ease, box-shadow .3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .amazon-card img {
-            width: 180px;
-            margin-bottom: 12px;
-        }
-
-        .amazon-card span {
-            font-size: 0.95rem;
-            letter-spacing: 1px;
-        }
-
-        .amazon-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 28px 50px rgba(0, 0, 0, .2);
-        }
-
-        .bank-card {
-            width: 300px;
-            background: #fffaf0;
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, .15);
-            text-align: left;
-        }
-
-        .bank-card h3 {
-            margin-top: 0;
-            color: #c6a75e;
-            text-align: center;
-        }
-
-        .bank-card p {
-            line-height: 1.5;
-            font-size: 0.95rem;
-        }
-
-        .bank-card small {
-            display: block;
-            margin-top: 15px;
-            text-align: center;
-            color: #7a7a7a;
-            font-size: 0.8rem;
-        }
-
-        .save-date-btn {
-            margin-top: 15px;
-            padding: 12px 30px;
-            border-radius: 30px;
-            background: #c6a75e;
-            color: white;
-            text-decoration: none;
-            font-size: .9rem;
-            letter-spacing: 2px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
-            transition: all .3s ease;
-        }
-
-        .save-date-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 16px 35px rgba(0, 0, 0, .35);
-        }
-
-        #music-player {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 55px;
-            height: 55px;
-            background: #c9a24d;
-            color: white;
-            font-size: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-            z-index: 9999;
-            transition: transform 0.3s ease;
-        }
-
-        #music-player:hover {
-            transform: scale(1.1);
-        }
-
-        @media (max-width: 768px) {
-
-            /* ===== HERO ===== */
-            .hero {
-                height: 100vh;
-            }
-
-            .hero img {
-                height: 110%;
-                transform: translateY(-5%);
-            }
-
-            /* ===== NOMBRES ===== */
-            .names h1 {
-                font-size: 2.8rem;
-                letter-spacing: 6px;
-                line-height: 1.2;
-                padding: 0 15px;
-            }
-
-            /* ===== FECHA ===== */
-            .fecha {
-                gap: 15px;
-                margin: 12px auto;
-            }
-
-            .fecha-derecha-dia,
-            .fecha-izquierda-hora {
-                font-size: 3.5rem;
-            }
-
-            .fecha-derecha-mes,
-            .fecha-izquierda-hora-2 {
-                font-size: 1.11rem;
-                letter-spacing: 2px;
-            }
-
-            .fecha-division {
-                height: 40px;
-            }
-
-            /* ===== FRASES ===== */
-            .phrase {
-                font-size: 1rem;
-                padding: 0 15px;
-            }
-
-            /* ===== PAPER ===== */
-            .paper {
-                margin: 20px 10px;
-                border-radius: 20px;
-            }
-
-            /* ===== CARRUSEL ===== */
-            .carousel img {
-                height: 60vh;
-                width: 100%;
-            }
-
-            /* ===== PADRES ===== */
-            .parents {
-                gap: 40px;
-            }
-
-            /* ===== ITINERARIO ===== */
-            .itinerary-section {
-                max-width: 100%;
-            }
-
-            .timeline-text {
-                font-size: 14px;
-            }
-
-            /* ===== DRESS CODE ===== */
-            .dress-icon {
-                width: 140px;
-            }
-
-            /* ===== BOTÓN SAVE DATE ===== */
-            .save-date-btn {
-                font-size: 0.8rem;
-                padding: 10px 24px;
-            }
-
-            /* ===== MÚSICA ===== */
-            #music-player {
-                width: 48px;
-                height: 48px;
-                font-size: 20px;
-                bottom: 20px;
-                right: 20px;
-            }
-        }
-
-        .paper,
-        .coverflow-carousel {
-            overflow-x: hidden;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Invitación de Boda | Esmeralda & David</title>
+  <meta name="description" content="Esmeralda & David se casan el sábado 13 de marzo de 2027 en Quinta Grisel. Acompáñanos a celebrar nuestra unión.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="canonical" href="https://davebl7.github.io/Invitacion/index.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%8D%3C/text%3E%3C/svg%3E">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://davebl7.github.io/Invitacion/index.html">
+  <meta property="og:title" content="Esmeralda & David | Nos casamos">
+  <meta property="og:description" content="Sábado 13 de marzo de 2027 · Quinta Grisel. Acompáñanos a celebrar nuestra unión.">
+  <meta property="og:image" content="https://davebl7.github.io/Invitacion/assets/img/background.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Esmeralda & David | Nos casamos">
+  <meta name="twitter:description" content="Sábado 13 de marzo de 2027 · Quinta Grisel. Acompáñanos a celebrar nuestra unión.">
+  <meta name="twitter:image" content="https://davebl7.github.io/Invitacion/assets/img/background.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Parisienne&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preload" as="image" href="assets/img/anilo.jpg">
+  <link rel="stylesheet" href="css/styles.css?v=1">
 </head>
-
 <body>
-    <nav id="mainMenu">
-        <ul>
-            <li><a href="#padres"><i class="fa-solid fa-heart"></i><span>Padres</span></a></li>
-            <li><a href="#padrinos"><i class="fa-solid fa-people-group"></i><span>Padrinos</span></a></li>
-            <li><a href="#lugar"><i class="fa-solid fa-location-dot"></i><span>Lugar</span></a></li>
-            <li><a href="#itinerario"><i class="fa-solid fa-clock"></i><span>Itinerario</span></a></li>
-            <li><a href="#dresscode"><i class="fa-solid fa-user-tie"></i><span>Vestimenta</span></a></li>
-            <li><a href="#regalos"><i class="fa-solid fa-gift"></i><span>Regalos</span></a></li>
-            <li><a href="#asistencia"><i class="fa-solid fa-envelope"></i><span>Confirmación</span></a></li>
-        </ul>
-    </nav>
-    <!-- INTRO -->
-    <div id="intro">
-        <video id="introVideo" playsinline>
-            <source src="img/video.mp4" type="video/mp4">
-            Tu navegador no soporta video.
-        </video>
 
-        <button id="playButton">
-            Toca aquí para abrir
+<a class="skip-link" href="#mainContent">Saltar al contenido</a>
+
+<!-- BARRA DE PROGRESO DE SCROLL -->
+<div id="scrollProgress"></div>
+
+<!-- FONDO FIJO DESENFOCADO -->
+<!-- PÉTALOS CAYENDO -->
+<canvas id="petals-canvas"></canvas>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Galería de fotos">
+  <button id="lightbox-close" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+  <button id="lightbox-prev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+  <img id="lightbox-img" src="" alt="Foto ampliada">
+  <button id="lightbox-next" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+  <div id="lightbox-counter"></div>
+</div>
+
+<!-- CONFETTI -->
+<canvas id="confetti-canvas"></canvas>
+
+<!-- BOTONES FLOTANTES -->
+<div class="fab-stack">
+  <button id="theme-toggle" aria-label="Cambiar contraste"><i class="fa-solid fa-circle-half-stroke"></i></button>
+  <button id="music-player" aria-label="Controlar música">
+    <div class="music-waves"><span></span><span></span><span></span><span></span></div>
+    <i class="fa-solid fa-music"></i>
+  </button>
+</div>
+
+<!-- TOAST -->
+<div id="toast">✓ &nbsp;Copiado al portapapeles</div>
+
+<!-- INTRO: SOBRE CON SELLO DE CERA REALISTA -->
+<div id="intro">
+  <div class="intro-stage">
+    <div class="envelope-wrap">
+      <div class="envelope" id="envelope">
+
+        <div class="envelope-card" id="envelopeCard">
+          <div class="envelope-card-edge"></div>
+          <div class="envelope-card-inner">
+            <span class="envelope-card-monogram">E<span class="amp">&amp;</span>D</span>
+            <span class="envelope-card-rule"></span>
+            <span class="envelope-card-text">Estás cordialmente invitado</span>
+          </div>
+        </div>
+
+        <div class="envelope-pocket">
+          <div class="envelope-pocket-shadow"></div>
+        </div>
+
+        <div class="envelope-flap-back"></div>
+
+        <div class="envelope-flap" id="envelopeFlap">
+          <div class="envelope-flap-inner"></div>
+        </div>
+
+        <div class="envelope-contact-shadow"></div>
+
+        <button class="envelope-seal" id="envelopeSeal" aria-label="Abrir invitación, romper sello">
+          <span class="seal-half seal-half-top"></span>
+          <span class="seal-half seal-half-bottom"></span>
+          <span class="seal-drip seal-drip-1"></span>
+          <span class="seal-drip seal-drip-2"></span>
         </button>
-        <div id="skipIntro">Omitir intro</div>
+      </div>
     </div>
+    <div class="envelope-names">
+      <span class="envelope-names-text" id="introNames">Esmeralda &amp; David</span>
+      <span class="envelope-names-date">13 · Marzo · 2027</span>
+    </div>
+    <p class="intro-hint">Toca el sello para abrir</p>
+  </div>
+  <button id="skipIntro">Omitir intro &nbsp;›</button>
+</div>
 
-    <!-- CONTENIDO REAL -->
-    <div id="mainContent">
+<!-- MARCO: panel lateral (≥576px) + tarjeta principal -->
+<div class="frame">
 
-        <div class="hero">
-            <img src="img/background.jpg" alt="Portada">
-            <div class="names">
-                <h1>David <br>& <br>Esmeralda</h1>
-                <section class="fecha reveal-fecha">
-                    <div class="fecha-derecha">
-                        <h2 class="fecha-derecha-dia">14</h2>
-                        <h3 class="fecha-derecha-mes">Noviembre</h3>
-                    </div>
+  <!-- PANEL LATERAL: fotos en loop con zoom (Ken Burns) + texto fijo -->
+  <aside class="side-slideshow" id="sideSlideshow" aria-hidden="true">
+    <div class="side-slide kb-1 active" style="background-image:url('assets/img/portada3.jpg')"></div>
+    <div class="side-slide kb-2" style="background-image:url('assets/img/portada1.jpg')"></div>
+    <div class="side-slide kb-3" style="background-image:url('assets/img/portada2.jpg')"></div>
+    <div class="side-slide kb-4" style="background-image:url('assets/img/anilo.jpg')"></div>
+    <div class="side-slide kb-5" style="background-image:url('assets/img/azulcamino.jpg')"></div>
+    <div class="side-slide kb-6" style="background-image:url('assets/img/guitar.jpg')"></div>
+    <div class="side-slide kb-7" style="background-image:url('assets/img/azul.jpg')"></div>
+    <div class="side-caption">
+      <span class="v3-script-heading">Esmeralda &amp; David</span>
+      <small>Sábado, 13 de Marzo 2027</small>
+    </div>
+  </aside>
 
-                    <div class="fecha-division"></div>
+  <!-- TARJETA PRINCIPAL -->
+  <div id="mainContent" class="card-shell">
 
-                    <div class="fecha-izquierda">
-                        <h2 class="fecha-izquierda-hora">16:40</h2>
-                        <h3 class="fecha-izquierda-hora-2">Horas</h3>
-                    </div>
-                </section>
-                <p class="phrase">Uno solo puede ser vencido, pero dos pueden resistir.<br>
-                    ¡La cuerda de tres hilos no se rompe fácilmente!<br> - Eclesiastés 4:12.</p>
+    <!-- HOME -->
+    <section id="home" class="v3-hero">
+      <span class="v3-kicker">Invitación de Boda</span>
+      <div class="v3-photo-ring" id="heroPhotoRing">
+        <img src="assets/img/anilo.jpg" alt="Esmeralda y David">
+      </div>
+      <h1 class="v3-names">Esmeralda &amp; David</h1>
+      <p class="v3-date">Sábado, 13 de Marzo 2027</p>
+      <a href="save-the-date.ics" class="v3-pill-btn" download>
+        <i class="fa-regular fa-calendar-check"></i>
+        Guardar en el calendario
+      </a>
+      <div class="v3-scroll-hint">
+        <i class="fa-solid fa-computer-mouse"></i>
+        <span>Desliza hacia abajo</span>
+      </div>
+    </section>
+
+    <div class="wave-divider"><svg viewBox="0 0 500 40" preserveAspectRatio="none"><use href="#wave-shape"/></svg></div>
+
+    <!-- COUNTDOWN PÍLDORAS -->
+    <section class="v3-countdown-section">
+      <h2 class="v3-script-heading">Momento Especial</h2>
+      <div class="pill-countdown" id="countdown">
+        <div class="pill-chip"><span id="days">0</span><small>Días</small></div>
+        <div class="pill-chip"><span id="hours">0</span><small>Horas</small></div>
+        <div class="pill-chip"><span id="minutes">0</span><small>Min</small></div>
+        <div class="pill-chip"><span id="seconds">0</span><small>Seg</small></div>
+      </div>
+      <p class="v3-verse">
+        Uno solo puede ser vencido, pero dos pueden resistir.<br>
+        ¡La cuerda de tres hilos no se rompe fácilmente! — Eclesiastés 4:12
+      </p>
+    </section>
+
+    <div class="wave-divider flip"><svg viewBox="0 0 500 40" preserveAspectRatio="none"><use href="#wave-shape"/></svg></div>
+
+    <!-- GALERÍA -->
+    <section id="galeria" class="v3-gallery-section">
+      <h2 class="v3-script-heading">Nuestros Momentos</h2>
+      <div class="v3-carousel">
+        <div class="v3-carousel-track">
+          <img src="assets/img/anilo.jpg"    alt="Anillo"  data-gallery="0">
+          <img src="assets/img/portada3.jpg" alt="Foto 3"  data-gallery="1">
+          <img src="assets/img/portada1.jpg" alt="Foto 1"  data-gallery="2">
+          <img src="assets/img/portada2.jpg" alt="Foto 2"  data-gallery="3">
+        </div>
+      </div>
+      <div class="v3-gallery-grid">
+        <img src="assets/img/anilo.jpg"    alt="Foto 1" data-gallery="0" loading="lazy" width="200" height="200">
+        <img src="assets/img/portada3.jpg" alt="Foto 2" data-gallery="1" loading="lazy" width="200" height="200">
+        <img src="assets/img/portada1.jpg" alt="Foto 3" data-gallery="2" loading="lazy" width="200" height="200">
+        <img src="assets/img/portada2.jpg" alt="Foto 4" data-gallery="3" loading="lazy" width="200" height="200">
+      </div>
+    </section>
+
+    <div class="wave-divider"><svg viewBox="0 0 500 40" preserveAspectRatio="none"><use href="#wave-shape"/></svg></div>
+
+    <!-- HISTORIA -->
+    <section id="historia" class="v3-glass-section">
+      <h2 class="v3-script-heading">Nuestra Historia</h2>
+      <div class="v3-glass-card">
+        <p>Lo que comenzó como una amistad se transformó, con el tiempo, en la certeza de que queríamos recorrer la vida juntos.</p>
+        <p>Hoy, con el corazón lleno de gratitud, celebramos ese camino y las ganas de seguir escribiendo nuestra historia — ahora como esposos.</p>
+      </div>
+    </section>
+
+    <!-- PADRES -->
+    <section id="familia" class="v3-glass-section">
+      <h2 class="v3-script-heading">Nuestros Padres</h2>
+      <div class="v3-couple-block">
+        <div class="v3-photo-ring small"><img src="assets/icons/novio1.png" alt="Padres del novio" loading="lazy" width="110" height="110"></div>
+        <p class="v3-role">Padres del Novio</p>
+        <p class="v3-role-names">Martín Adrián Beltrán Gil<br>Pilar Isela Bórquez Rodríguez</p>
+      </div>
+      <div class="v3-amp">&amp;</div>
+      <div class="v3-couple-block">
+        <div class="v3-photo-ring small"><img src="assets/icons/novia1.png" alt="Padres de la novia" loading="lazy" width="110" height="110"></div>
+        <p class="v3-role">Padres de la Novia</p>
+        <p class="v3-role-names">Jose Antonio Zavala Ruíz<br>Cecilia Serrano Gómez</p>
+      </div>
+    </section>
+
+    <div class="wave-divider flip"><svg viewBox="0 0 500 40" preserveAspectRatio="none"><use href="#wave-shape"/></svg></div>
+
+    <!-- FECHA / LUGAR / ITINERARIO -->
+    <section id="fecha" class="v3-glass-section">
+      <h2 class="v3-script-heading">Quinta Grisel</h2>
+      <div class="v3-map-frame">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3594.9453076079185!2d-109.0325953!3d25.706234799999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86ba25329776f1cf%3A0xa3d1a78ae0e89f9b!2sQuinta%20Grisel!5e0!3m2!1ses-419!2smx!4v1770611354274!5m2!1ses-419!2smx"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Quinta Grisel en el mapa">
+        </iframe>
+      </div>
+
+      <div class="v3-schedule">
+        <div class="v3-schedule-item">
+          <span class="v3-script-heading small">Recepción</span>
+          <p>4:30 PM</p>
+        </div>
+        <div class="v3-schedule-item">
+          <span class="v3-script-heading small">Ceremonia</span>
+          <p>5:00 PM</p>
+        </div>
+        <div class="v3-schedule-item">
+          <span class="v3-script-heading small">Cena y Brindis</span>
+          <p>7:30 PM</p>
+        </div>
+      </div>
+
+      <div class="itinerary-wrap">
+        <div class="timeline-divider"><span>Llegada</span></div>
+        <div class="timeline-item tl-a"><div class="timeline-content"><div class="timeline-card"><div class="timeline-time">4:30 PM</div><div class="timeline-event">Recepción</div></div></div><div class="timeline-node"><img src="assets/icons/recepcion.png" alt="Recepción" loading="lazy" width="60" height="60"></div><div class="timeline-content"></div></div>
+        <div class="timeline-item tl-b"><div class="timeline-content"></div><div class="timeline-node"><img src="assets/icons/ceremonia.png" alt="Ceremonia" loading="lazy" width="60" height="60"></div><div class="timeline-content"><div class="timeline-card"><div class="timeline-time">5:00 PM</div><div class="timeline-event">Ceremonia</div></div></div></div>
+
+        <div class="timeline-divider"><span>Después de la Ceremonia</span></div>
+        <div class="timeline-item tl-a"><div class="timeline-content"><div class="timeline-card"><div class="timeline-time">5:30 PM</div><div class="timeline-event">Fotos &amp; Coffee</div></div></div><div class="timeline-node"><img src="assets/icons/camaraicon.png" alt="Fotos" loading="lazy" width="60" height="60"></div><div class="timeline-content"></div></div>
+        <div class="timeline-item tl-b"><div class="timeline-content"></div><div class="timeline-node"><img src="assets/icons/entradanovios.png" alt="Entrada" loading="lazy" width="60" height="60"></div><div class="timeline-content"><div class="timeline-card"><div class="timeline-time">6:15 PM</div><div class="timeline-event">Entrada de Novios</div></div></div></div>
+        <div class="timeline-item tl-a"><div class="timeline-content"><div class="timeline-card"><div class="timeline-time">6:30 PM</div><div class="timeline-event">Aperitivos</div></div></div><div class="timeline-node"><img src="assets/icons/aperit.png" alt="Aperitivos" loading="lazy" width="60" height="60"></div><div class="timeline-content"></div></div>
+
+        <div class="timeline-divider"><span>Celebración</span></div>
+        <div class="timeline-item tl-b"><div class="timeline-content"></div><div class="timeline-node"><img src="assets/icons/bailenovios.png" alt="Baile" loading="lazy" width="60" height="60"></div><div class="timeline-content"><div class="timeline-card"><div class="timeline-time">7:00 PM</div><div class="timeline-event">Baile de los Novios</div></div></div></div>
+        <div class="timeline-item tl-a"><div class="timeline-content"><div class="timeline-card"><div class="timeline-time">7:30 PM</div><div class="timeline-event">Cena</div></div></div><div class="timeline-node"><img src="assets/icons/cenaicon.png" alt="Cena" loading="lazy" width="60" height="60"></div><div class="timeline-content"></div></div>
+        <div class="timeline-item tl-b"><div class="timeline-content"></div><div class="timeline-node"><img src="assets/icons/brindis.png" alt="Brindis" loading="lazy" width="60" height="60"></div><div class="timeline-content"><div class="timeline-card"><div class="timeline-time">8:30 PM</div><div class="timeline-event">Brindis</div></div></div></div>
+        <div class="timeline-item tl-a"><div class="timeline-content"><div class="timeline-card"><div class="timeline-time">9:00 PM</div><div class="timeline-event">Lanzamiento de Ramo</div></div></div><div class="timeline-node"><img src="assets/icons/ramonovia.png" alt="Ramo" loading="lazy" width="60" height="60"></div><div class="timeline-content"></div></div>
+        <div class="timeline-item tl-b"><div class="timeline-content"></div><div class="timeline-node"><img src="assets/icons/cierre.png" alt="Cierre" loading="lazy" width="60" height="60"></div><div class="timeline-content"><div class="timeline-card"><div class="timeline-time">10:00 PM</div><div class="timeline-event">Cierre</div></div></div></div>
+      </div>
+
+      <div class="v3-dresscode">
+        <span class="v3-script-heading small">Dress Code · Formal</span>
+        <p>Reservamos el <strong>color blanco</strong> exclusivamente para la novia. Evitar gris claro, perla o similares.</p>
+        <div class="v3-swatches">
+          <span style="background:#0d0d0f"></span>
+          <span style="background:#3a2a12"></span>
+          <span style="background:#b8935a"></span>
+          <span style="background:#e3cd9a"></span>
+        </div>
+        <div class="v3-notice"><i class="fa-solid fa-circle-info"></i> Celebración exclusiva para adultos.</div>
+      </div>
+    </section>
+
+    <div class="wave-divider"><svg viewBox="0 0 500 40" preserveAspectRatio="none"><use href="#wave-shape"/></svg></div>
+
+    <!-- REGALOS -->
+    <section id="regalos" class="v3-glass-section">
+      <h2 class="v3-script-heading">Love Gift</h2>
+      <p class="v3-lead">Tu presencia es nuestro mayor regalo. Si tu corazón desea bendecirnos con algún detalle, lo recibimos con mucho agradecimiento:</p>
+
+      <a href="https://www.amazon.com.mx/wedding/share/DavidyEsme" target="_blank" rel="noopener" class="v3-glass-card v3-link-card">
+        <img src="assets/icons/amazon.png" alt="Mesa de regalos Amazon" loading="lazy" width="96" height="96">
+        <span>Ver lista de regalos</span>
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+
+      <div class="v3-glass-card v3-bank-card">
+        <div class="v3-bank-row"><i class="fa-solid fa-building-columns"></i> BBVA — David Beltrán</div>
+        <button class="v3-pill-btn ghost" id="revealBank" onclick="mostrarDatosBancarios()">
+          <i class="fa-solid fa-eye"></i> Ver datos para transferencia
+        </button>
+        <div class="v3-bank-sensitive" id="bankSensitive">
+          <div><span>No. de Tarjeta</span><strong id="cardValue">···· ···· ···· ····</strong></div>
+          <div><span>CLABE Interbancaria</span><strong id="clabeValue">····················</strong></div>
+        </div>
+        <button class="v3-pill-btn ghost" id="copyClabe" onclick="copiarClabe()">
+          <i class="fa-regular fa-copy"></i> Copiar CLABE
+        </button>
+      </div>
+    </section>
+
+    <!-- PADRINOS -->
+    <section id="padrinos" class="v3-glass-section">
+      <h2 class="v3-script-heading">Nuestros Padrinos</h2>
+      <p class="flip-hint"><i class="fa-solid fa-hand-pointer"></i> Toca la tarjeta para ver el mensaje</p>
+      <div class="coverflow-carousel">
+        <div id="coverflow">
+          <div class="card active">
+            <div class="card-inner">
+              <div class="card-front" style="background-image:url('assets/img/selene.jpg')"></div>
+              <div class="card-back"><p>Selene Bórquez<br><br>Gracias por tu gran apoyo desde el día que nos comprometimos 💍🤍</p></div>
             </div>
+          </div>
+          <div class="card next">
+            <div class="card-inner">
+              <div class="card-front" style="background-image:url('assets/img/joel.jpg')"></div>
+              <div class="card-back"><p>Joel Bórquez<br><br>Gracias por aportar con el sonido, te queremos ✨</p></div>
+            </div>
+          </div>
+          <div class="card prev">
+            <div class="card-inner">
+              <div class="card-front" style="background-image:url('assets/img/esa.jpg')"></div>
+              <div class="card-back"><p>Esahu Bórquez<br><br>Gracias por siempre apoyarnos y animarnos a dar este paso</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swipe-arrows">
+        <button class="swipe-arrow" onclick="prevSlide()" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="swipe-arrow" onclick="nextSlide()" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </section>
+
+    <div class="wave-divider flip"><svg viewBox="0 0 500 40" preserveAspectRatio="none"><use href="#wave-shape"/></svg></div>
+
+    <!-- MENSAJES / RSVP -->
+    <section id="mensajes" class="v3-glass-section">
+      <h2 class="v3-script-heading">Mensajes &amp; Confirmación</h2>
+      <p class="v3-lead" id="rsvpLead">Por favor confirma tu asistencia antes del <strong>01 de Febrero de 2027</strong>.</p>
+      <form id="rsvpForm" class="v3-form" novalidate>
+        <input type="text" name="nombre" id="rsvpNombre" placeholder="Tu nombre completo" required autocomplete="name">
+
+        <fieldset class="v3-attendance">
+          <legend>¿Nos acompañas?</legend>
+          <label><input type="radio" name="asistencia" value="si" required> Sí, ahí estaré</label>
+          <label><input type="radio" name="asistencia" value="no" required> No podré asistir</label>
+        </fieldset>
+
+        <div id="guestSection" class="v3-guest-section" hidden>
+          <label for="numAcompanantes">Número de acompañantes adicionales</label>
+          <input type="number" id="numAcompanantes" name="numAcompanantes" min="0" max="1" value="0">
+          <div id="guestNamesList"></div>
         </div>
 
-        <div class="paper">
+        <textarea name="comentarios" placeholder="Mensaje para los novios o canción para el playlist (opcional)" rows="4"></textarea>
+        <button type="submit" id="submitBtn" class="v3-pill-btn">
+          <i class="fa-solid fa-paper-plane"></i> Confirmar asistencia
+        </button>
+        <div id="spinner" class="spinner"></div>
+      </form>
+      <p id="formMessage" role="status" aria-live="polite"></p>
+    </section>
 
-            <br>
-            <p class="phrase">Para la celebración de nuestra anhelada unión faltan:</p>
-            <div class="countdown-line" id="countdown">
-                <span><strong id="days">0</strong> días</span>
-                <span>·</span>
-                <span><strong id="hours">0</strong> horas</span>
-                <span>·</span>
-                <span><strong id="minutes">0</strong> min</span>
-                <span>·</span>
-                <span><strong id="seconds">0</strong> seg</span>
-            </div>
-            <!-- HERO -->
-            <div class="carousel">
-                <div class="carousel-track">
-                    <img src="img/anilo.jpg"><img src="img/portada3.jpg"><img src="img/portada1.jpg"><img
-                        src="img/portada2.jpg">
-                </div>
-            </div>
-
-            <section>
-                <p class="phrase">“El amor crece cuando se comparte.” <br>— Antoine de Saint-Exupéry</p><br>
-            </section>
-
-            <section>
-                <p class="text">Con la bendición de Dios y el amor que nos une, <br>queremos compartir con ustedes uno
-                    de los días más importantes <br>de nuestras vidas e invitarlos a celebrar nuestra unión.</p><br>
-                <a href="save-the-date.ics" class="save-date-btn" download>
-                    📅 Save the Date
-                </a>
-            </section>
-
-            <section id="padres">
-                <h2>Nuestros Padres</h2>
-
-                <div class="parents">
-
-                    <div class="parent-card">
-                        <div class="parent-icon-wrap">
-                            <img src="img/novio1.png" class="parent-icon" alt="Padres del novio">
-                        </div>
-                        <p class="parent-title">Padres del Novio:</p>
-                        <p class="parent-names">
-                            Martín Adrián Beltrán Gil<br>
-                            Pilar Isela Bórquez Rodríguez
-                        </p>
-                    </div>
-
-                    <div class="parent-card">
-                        <div class="parent-icon-wrap">
-                            <img src="img/novia1.png" class="parent-icon" alt="Padres de la novia">
-                        </div>
-                        <p class="parent-title">Padres de la Novia:</p>
-                        <p class="parent-names">
-                            Jose Antonio Zavala Ruíz<br>
-                            Cecilia Serrano Gómez
-                        </p>
-                    </div>
-
-                </div>
-            </section>
-
-            <section id="lugar">
-                <h2><i class="fa-solid fa-location-dot"></i> Lugar: Quinta Grisel.</h2>
-                <p>Mapa</p>
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3594.9453076079185!2d-109.0325953!3d25.706234799999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86ba25329776f1cf%3A0xa3d1a78ae0e89f9b!2sQuinta%20Grisel!5e0!3m2!1ses-419!2smx!4v1770611354274!5m2!1ses-419!2smx"
-                    style="width:100%; height:350px; border:0;" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </section>
-
-            <section id="itinerario" class="itinerary-section">
-                <h2> Itinerario</h2>
-
-                <div class="timeline-item left">
-                    <div class="timeline-image">
-                        <img src="img/recepcion.png" alt="Recepción">
-                    </div>
-                    <div class="timeline-content">
-                        <div class="icon-wrapper">
-                            <svg class="floral-icon" viewBox="0 0 24 24">
-                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                            </svg>
-                            <span class="line"></span>
-                        </div>
-                        <div class="timeline-text">
-                            <strong>4:30 PM</strong> – Recepción
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-image">
-                        <img src="img/ceremonia.png" alt="ceremonia">
-                    </div>
-                    <div class="timeline-content">
-                        <div class="icon-wrapper">
-                            <svg class="floral-icon" viewBox="0 0 24 24">
-                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                            </svg>
-                            <span class="line"></span>
-                        </div>
-                        <div class="timeline-text">
-                            <strong>5:00 PM</strong> – Ceremonia
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item left">
-                    <div class="timeline-image">
-                        <img src="img/camaraicon.png" alt="camara">
-                    </div>
-                    <div class="timeline-content">
-                        <div class="icon-wrapper">
-                            <svg class="floral-icon" viewBox="0 0 24 24">
-                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                            </svg>
-                            <span class="line"></span>
-                        </div>
-                        <div class="timeline-text">
-                            <strong>5:30 PM</strong> – Fotos y coffee
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-image">
-                        <img src="img/entradanovios.png" alt="entrada">
-                    </div>
-                    <div class="timeline-content">
-                        <div class="icon-wrapper">
-                            <svg class="floral-icon" viewBox="0 0 24 24">
-                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                            </svg>
-                            <span class="line"></span>
-                        </div>
-                        <div class="timeline-text">
-                            <strong>6:15 PM</strong> – Entrada de novios
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item left">
-                    <div class="timeline-image">
-                        <img src="img/aperit.png" alt="Recepción">
-                    </div>
-                    <div class="timeline-content">
-                        <div class="icon-wrapper">
-                            <svg class="floral-icon" viewBox="0 0 24 24">
-                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                            </svg>
-                            <span class="line"></span>
-                        </div>
-                        <div class="timeline-text">
-                            <strong>6:30 PM</strong> – Aperitivos
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-image">
-                        <img src="img/bailenovios.png" alt="ceremonia">
-                    </div>
-                    <div class="timeline-content">
-                        <div class="icon-wrapper">
-                            <svg class="floral-icon" viewBox="0 0 24 24">
-                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                            </svg>
-                            <span class="line"></span>
-                        </div>
-                        <div class="timeline-text">
-                            <strong>7:00 PM</strong> – Baile de los novios
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item left">
-                    <div class="timeline-image">
-                        <img src="img/cenaicon.png" alt="Recepción">
-                    </div>
-                    <div class="timeline-content">
-                        <div class="icon-wrapper">
-                            <svg class="floral-icon" viewBox="0 0 24 24">
-                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                            </svg>
-                            <span class="line"></span>
-                        </div>
-                        <div class="timeline-text">
-                            <strong>7:30 PM</strong> – Cena
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-image">
-                        <img src="img/brindis.png" alt="cena">
-                    </div>
-                    <div class="timeline-content">
-                        <div class="icon-wrapper">
-                            <svg class="floral-icon" viewBox="0 0 24 24">
-                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                            </svg>
-                            <span class="line"></span>
-                        </div>
-                        <div class="timeline-text">
-                            <strong>8:30 PM</strong> – Brindis
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item left">
-                    <div class="timeline-image">
-                        <img src="img/ramonovia.png" alt="ramo">
-                    </div>
-                    <div class="timeline-content">
-                        <div class="icon-wrapper">
-                            <svg class="floral-icon" viewBox="0 0 24 24">
-                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                            </svg>
-                            <span class="line"></span>
-                        </div>
-                        <div class="timeline-text">
-                            <strong>9:00 PM</strong> – Lanzamiento de ramo
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-image">
-                        <img src="img/cierre.png" alt="cierre">
-                    </div>
-                    <div class="timeline-content">
-                        <div class="icon-wrapper">
-                            <svg class="floral-icon" viewBox="0 0 24 24">
-                                <path d="M12 2c1.5 3-1.5 4.5 0 7..." />
-                            </svg>
-                            <span class="line"></span>
-                        </div>
-                        <div class="timeline-text">
-                            <strong>10:00 PM</strong> – Cierre
-                        </div>
-                    </div>
-                </div>
-
-            </section>
-
-            <section id="dresscode">
-                <h2>Dress Code - Formal</h2>
-                <img src="img/dress1.png" class="dress-icon" alt="Dress code">
-                <p class="dress">Agradecemos a nuestros invitados reservar el color blanco exclusivamente
-                    para la novia.<br>Evitar colores como gris claro, perla o similares.</p><br>
-                <p class="phrase">IMPORTANTE: Aunque amamos a sus hijos, pedimos amablemente que esta celebración sea
-                    exclusiva para adultos, para su comodidad y la de nuestros invitados. </p>
-            </section>
-
-            <section id="regalos" class="gifts-section">
-                <h2>Mesa de Regalos</h2>
-                <p>Si en tu corazón está el bendecirnos con algún detalle o aportación financiera, lo
-                    recibiremos con
-                    mucho agradecimiento por los siguientes medios: </p>
-                <div class="gifts-container">
-
-                    <!-- BOTÓN AMAZON -->
-                    <a href="https://www.amazon.com.mx/wedding/share/DavidyEsme" target="_blank" class="amazon-card">
-                        <img src="img/amazon.png" alt="Mesa de regalos Amazon">
-                    </a>
-
-                    <!-- TARJETA TRANSFERENCIA -->
-                    <div class="bank-card">
-                        <h3>Transferencia Bancaria</h3>
-                        <p>
-                            <strong>Banco:</strong> BBVA<br>
-                            <strong>Nombre:</strong> David Beltrán<br>
-                            <strong>No. de Tarjeta:</strong>
-                            4152313771056947<br>
-                            <strong>Clabe Interbancaria:</strong>
-                            012743015426556397
-                        </p>
-                        <small>¡Gracias por todo el cariño!</small>
-                    </div>
-
-                </div>
-            </section>
-
-            <section>
-                <img src="img/invitacion.png"
-                    style="width:100%;max-width:650px;border-radius:30px;box-shadow:0 20px 40px rgba(0,0,0,.2)">
-            </section>
-
-            <section id="asistencia" class="rsvp-section">
-                <h2>Confirmación de Asistencia</h2>
-                <p>Por favor confirma tu asistencia antes del <strong>01 de Octubre de 2026</strong>.</p>
-
-                <form id="rsvpForm">
-                    <input type="text" name="nombre" placeholder="Tu nombre completo" required>
-
-                    <textarea name="comentarios" placeholder="Mensaje para los novios o canción para la Playlist"
-                        rows="4"></textarea>
-
-                    <button type="submit" id="submitBtn">Confirmar asistencia</button>
-                    <div id="spinner" class="spinner"></div>
-                </form>
-                <p id="formMessage"></p>
-            </section>
-
-            <section id="padrinos">
-                <h2>Nuestros Padrinos</h2>
-                <div class="coverflow-carousel" id="coverflow">
-                    <div class="card active">
-                        <div class="card-inner">
-                            <div class="card-front" style="background-image:url('img/selene.png')">
-                            </div>
-                            <div class="card-back">
-                                <p>Selene Bórquez.<br><br> Gracias por su gran apoyo desde el día que nos
-                                    comprometimos💍🤍
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card next">
-                        <div class="card-inner">
-                            <div class="card-front" style="background-image:url('img/joel.png')">
-                            </div>
-                            <div class="card-back">
-                                <p>Joel Bórquez.<br><br> Gracias por aportar con el sonido, le queremos✨</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card prev">
-                        <div class="card-inner">
-                            <div class="card-front" style="background-image:url('img/esa.png')"></div>
-                            <div class="card-back">
-                                <p>Esahu Bórquez.<br><br> Gracias por siempre apoyarnos y animarnos a dar este paso</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-dots" id="carouselDots"></div>
-            </section>
-
-            <footer>
-                <img src="img/iniciales.png" alt="Decoración" class="footer-img">
-                Los queremos y esperamos contar con su presencia este día tan especial. <br>♥ ATTE: David & Esmeralda
-            </footer>
-            <audio id="bg-music" preload="auto" loop>
-                <source src="img/cancion.mp3" type="audio/mpeg">
-            </audio>
-            <div id="music-player"><i class="fa-solid fa-music"></i>
-            </div>
-        </div>
+    <!-- INVITACIÓN -->
+    <div class="v3-invite-final">
+      <div class="v3-glass-card invite-final-card">
+        <span class="v3-script-heading">¡Nos Casamos!</span>
+        <p>Con la bendición de Dios y el apoyo de nuestra familia,<br>nos llena de alegría invitarte a ser parte de este<br>momento tan importante en nuestra vida.</p>
+        <div class="invite-final-names">Esmeralda <span class="amp">&amp;</span> David</div>
+        <div class="invite-final-date">13 · Marzo · 2027 &nbsp;·&nbsp; 16:30 hrs</div>
+      </div>
     </div>
 
-    <script>
-        const video = document.getElementById("introVideo");
-        const intro = document.getElementById("intro");
-        const button = document.getElementById("playButton");
-        const content = document.getElementById("mainContent");
-        const skipIntro = document.getElementById("skipIntro");
+    <!-- FOOTER -->
+    <footer class="v3-footer">
+      <div class="footer-monogram" aria-hidden="true">E<span class="amp">&amp;</span>D</div>
+      <p>Los queremos y esperamos contar con su presencia en este día tan especial.</p>
+      <span class="v3-script-heading small">♥ Esmeralda &amp; David</span>
+    </footer>
 
-        playButton.addEventListener("click", () => {
-            startMusic(); // 🎵 AQUÍ
-            video.play();
-            playButton.style.display = "none";
-            skipIntro.classList.add("visible");
-        });
-        skipIntro.addEventListener("click", () => {
-            startMusic(); // 🎵 AQUÍ TAMBIÉN
-            video.pause();
-            video.currentTime = video.duration;
+    <audio id="bg-music" preload="none" loop>
+      <source src="assets/audio/cancion.mp3" type="audio/mpeg">
+    </audio>
 
-            cerrarIntro();
-        });
-        function cerrarIntro() {
-            intro.style.opacity = "0";
-            intro.style.transition = "opacity 1s ease";
+  </div><!-- /card-shell -->
 
-            setTimeout(() => {
-                intro.remove();
-                content.style.display = "block";
-                document.body.style.overflow = "auto";
-                document.getElementById("mainMenu").style.display = "block";
-                reveal();
-                revealFecha();
-            }, 1000);
-        }
-        video.addEventListener("ended", () => {
-            intro.style.opacity = "0";
-            intro.style.transition = "opacity 1s ease";
+</div><!-- /frame -->
 
-            setTimeout(() => {
-                intro.remove();
-                content.style.display = "block";
-                document.body.style.overflow = "auto";
-                document.getElementById("mainMenu").style.display = "block";
-                reveal();
-                revealFecha();
-            }, 1000);
-        });
-    </script>
-    <script>
-        const music = document.getElementById("bg-music");
-        let musicStarted = false;
+<!-- MENÚ INFERIOR FIJO -->
+<nav id="mainMenu" class="bottom-nav">
+  <a href="#home" class="active"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
+  <a href="#familia"><i class="fa-solid fa-people-group"></i><span>Familia</span></a>
+  <a href="#fecha"><i class="fa-solid fa-location-dot"></i><span>Ubicación</span></a>
+  <a href="#galeria"><i class="fa-solid fa-images"></i><span>Galería</span></a>
+  <a href="#mensajes"><i class="fa-solid fa-envelope"></i><span>Confirmación</span></a>
+</nav>
 
-        function startMusic() {
-            if (musicStarted) return;
+<!-- Símbolo SVG reutilizable para los divisores de ola -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="wave-shape" viewBox="0 0 500 40">
+    <path d="M0,20 C100,45 150,-5 250,20 C350,45 400,-5 500,20 L500,40 L0,40 Z"/>
+  </symbol>
+</svg>
 
-            music.volume = 0;
-            music.muted = false;
-
-            const playPromise = music.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    musicStarted = true;
-
-                    // fade in elegante
-                    let vol = 0;
-                    const fade = setInterval(() => {
-                        if (vol < 0.6) {
-                            vol += 0.02;
-                            music.volume = vol;
-                        } else {
-                            clearInterval(fade);
-                        }
-                    }, 100);
-                }).catch(() => {
-                    // si el navegador bloquea, no pasa nada
-                });
-            }
-        }
-    </script>
-
-    <script>
-        const fecha = document.querySelector('.reveal-fecha');
-
-        const revealFecha = () => {
-            const top = fecha.getBoundingClientRect().top;
-            if (top < window.innerHeight * 0.8) {
-                fecha.classList.add('visible');
-            }
-        };
-
-        window.addEventListener("scroll", revealFecha);
-    </script>
-
-    <script>
-        // SCROLL REVEAL
-        document.querySelectorAll('.timeline-item').forEach(item => {
-            const rect = item.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.85) {
-                item.classList.add('visible');
-            }
-        });
-        const sections = document.querySelectorAll("section");
-
-        const reveal = () => {
-            sections.forEach(s => {
-                const rect = s.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.85) {
-                    s.classList.add("visible");
-                }
-            });
-        };
-
-        window.addEventListener("scroll", reveal);
-
-
-        // RSVP
-        const form = document.getElementById("rsvpForm");
-        const message = document.getElementById("formMessage");
-        const spinner = document.getElementById("spinner");
-        const submitButton = document.getElementById("submitBtn");
-        let sending = false;
-        form.addEventListener("submit", e => {
-            e.preventDefault();
-            if (sending) return;   // 🚫 evita doble envío
-            sending = true;
-
-            submitButton.disabled = true;
-            spinner.style.display = "block";
-            const data = {
-                nombre: form.nombre.value,
-                comentarios: form.comentarios.value
-            };
-            form.style.display = "none";
-            message.innerText = "✨ Gracias por confirmar. Tu información se ha guardado correctamente 🤍 ✨";
-
-            fetch("https://script.google.com/macros/s/AKfycbwrztGaP24RyRUCrtlRO45zg03o1mpZiQCzXgkCd95Mdeg7wII4cq4JzedPWEXCq2WEKw/exec", {
-                method: "POST",
-                body: JSON.stringify(data)
-            }).catch(() => {
-                message.innerText = "Ocurrió un error, intenta más tarde.";
-            });
-        });
-    </script>
-
-    <script>
-        const weddingDate = new Date("November 14, 2026 16:30:00").getTime();
-
-        const ids = ["days", "hours", "minutes", "seconds"];
-
-        function animateNumber(id, value) {
-            const el = document.getElementById(id);
-            if (el.innerText != value) {
-                el.classList.add("animate");
-                setTimeout(() => {
-                    el.innerText = value;
-                    el.classList.remove("animate");
-                }, 180);
-            }
-        }
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = weddingDate - now;
-
-            if (distance < 0) {
-                document.getElementById("countdown").innerHTML =
-                    "✨ Hoy celebramos nuestro amor ✨";
-                return;
-            }
-
-            animateNumber("days", Math.floor(distance / (1000 * 60 * 60 * 24)));
-            animateNumber("hours", Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-            animateNumber("minutes", Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
-            animateNumber("seconds", Math.floor((distance % (1000 * 60)) / 1000));
-        }
-
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-    </script>
-
-    <script>
-        /* ===== PAUSAR CARRUSEL HERO CUANDO NO SE VE ===== */
-        const carouseltrack = document.querySelector('.carousel-track');
-        const heroCarousel = document.querySelector('.carousel');
-
-        if (carouseltrack && heroCarousel) {
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    carouseltrack.style.animationPlayState =
-                        entry.isIntersecting ? 'running' : 'paused';
-                });
-            }, { threshold: 0.3 });
-
-            observer.observe(heroCarousel);
-        }
-
-        /* ===== CARRUSEL PADRINOS ===== */
-        const carousel = document.getElementById("coverflow");
-        const cards = carousel.querySelectorAll(".card");
-        const dotsContainer = document.getElementById("carouselDots");
-
-        let index = 0;
-        let auto;
-
-        // Crear dots
-        cards.forEach((_, i) => {
-            const dot = document.createElement("span");
-            dot.addEventListener("click", () => {
-                index = i;
-                updateCarousel();
-                restartAuto();
-            });
-            dotsContainer.appendChild(dot);
-        });
-
-        const dots = dotsContainer.querySelectorAll("span");
-
-        function updateCarousel() {
-            cards.forEach(c => c.className = "card");
-            dots.forEach(d => d.classList.remove("active"));
-
-            cards[index].classList.add("active");
-            cards[(index + 1) % cards.length].classList.add("next");
-            cards[(index - 1 + cards.length) % cards.length].classList.add("prev");
-
-            dots[index].classList.add("active");
-        }
-
-        function nextSlide() {
-            index = (index + 1) % cards.length;
-            updateCarousel();
-        }
-
-        function restartAuto() {
-            clearInterval(auto);
-            auto = setInterval(nextSlide, 4500);
-        }
-
-        carousel.addEventListener("mouseenter", () => clearInterval(auto));
-        carousel.addEventListener("mouseleave", restartAuto);
-
-        updateCarousel();
-        restartAuto();
-    </script>
-
-    <script>
-        let ticking = false;
-
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scroll = window.scrollY;
-                    const heroImg = document.querySelector('.hero img');
-                    if (heroImg) {
-                        heroImg.style.transform = `translateY(${scroll * 0.2 - 10}px)`;
-                    }
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-    </script>
-    <script>
-        (() => {
-            const music = document.getElementById("bg-music");
-            const button = document.getElementById("music-player");
-            const icon = button.querySelector("i");
-            let playing = !music.paused;
-
-            button.addEventListener("click", () => {
-                if (!playing) {
-                    music.muted = false;
-
-                    const playPromise = music.play();
-                    if (playPromise !== undefined) {
-                        playPromise.then(() => {
-                            playing = true;
-                            icon.className = "fa-solid fa-pause";
-                        }).catch(err => {
-                            console.error("Audio bloqueado:", err);
-                        });
-                    }
-                } else {
-                    music.pause();
-                    playing = false;
-                    icon.className = "fa-solid fa-music";
-                }
-            });
-        })();
-    </script>
+<script src="js/guests.js?v=1"></script>
+<script src="js/main.js?v=1"></script>
+<script src="js/mobile-side-panel.js?v=2" defer></script>
+<script src="js/color-palette-tool.js?v=1" defer></script>
 </body>
-
 </html>

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "wedding-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [".claude/nocache_server.py", "8123"],
+      "port": 8123
+    }
+  ]
+}
