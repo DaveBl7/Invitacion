@@ -8,7 +8,8 @@ DTSTAMP:20270313T163000Z
 DTSTART:20270313T233000Z
 DTEND:20270314T043000Z
 SUMMARY:La boda de Esmeralda & David
-DESCRIPTION:Con la bendición de Dios, celebramos nuestra boda.\n\nHora de llegada: 4:30 PM\nLugar: Quinta Grisel
-LOCATION:Quinta Grisel
+DESCRIPTION:Con la bendición de Dios, celebramos nuestra boda.\n\nHora de llegada: 4:30 PM\nLugar: Canta Luna Campestre
+LOCATION:Canta Luna Campestre
+GEO:25.8343373;-109.052718
 END:VEVENT
 END:VCALENDAR
